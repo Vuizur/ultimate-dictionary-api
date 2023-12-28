@@ -1,0 +1,484 @@
+{
+  "$defs": {
+    "Example": {
+      "additionalProperties": false,
+      "properties": {
+        "ref": {
+          "default": "",
+          "description": "Source of the sentence, like book title and page number",
+          "title": "Ref",
+          "type": "string"
+        },
+        "roman": {
+          "default": "",
+          "description": "Romanization of the example sentence",
+          "title": "Roman",
+          "type": "string"
+        },
+        "text": {
+          "default": "",
+          "description": "Example usage sentence",
+          "title": "Text",
+          "type": "string"
+        },
+        "translation": {
+          "default": "",
+          "description": "French translation of the example sentence",
+          "title": "Translation",
+          "type": "string"
+        }
+      },
+      "title": "Example",
+      "type": "object"
+    },
+    "Form": {
+      "additionalProperties": false,
+      "properties": {
+        "form": {
+          "default": "",
+          "title": "Form",
+          "type": "string"
+        },
+        "ipas": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Ipas",
+          "type": "array"
+        },
+        "source": {
+          "default": "",
+          "description": "Form line template name",
+          "title": "Source",
+          "type": "string"
+        },
+        "tags": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Tags",
+          "type": "array"
+        }
+      },
+      "title": "Form",
+      "type": "object"
+    },
+    "Linkage": {
+      "additionalProperties": false,
+      "properties": {
+        "alt": {
+          "default": "",
+          "description": "ALternative form",
+          "title": "Alt",
+          "type": "string"
+        },
+        "lang_code": {
+          "default": "",
+          "description": "Wiktionary language code",
+          "title": "Lang Code",
+          "type": "string"
+        },
+        "lang_name": {
+          "default": "",
+          "description": "Localized language name",
+          "title": "Lang Name",
+          "type": "string"
+        },
+        "roman": {
+          "default": "",
+          "title": "Roman",
+          "type": "string"
+        },
+        "sense": {
+          "default": "",
+          "description": "Definition of the word",
+          "title": "Sense",
+          "type": "string"
+        },
+        "sense_index": {
+          "default": 0,
+          "description": "Number of the definition, start from 1",
+          "minimum": 0,
+          "title": "Sense Index",
+          "type": "integer"
+        },
+        "tags": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Tags",
+          "type": "array"
+        },
+        "translation": {
+          "default": "",
+          "description": "French translation",
+          "title": "Translation",
+          "type": "string"
+        },
+        "word": {
+          "default": "",
+          "title": "Word",
+          "type": "string"
+        }
+      },
+      "title": "Linkage",
+      "type": "object"
+    },
+    "Sense": {
+      "additionalProperties": false,
+      "properties": {
+        "categories": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Categories",
+          "type": "array"
+        },
+        "examples": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Example"
+          },
+          "title": "Examples",
+          "type": "array"
+        },
+        "glosses": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Glosses",
+          "type": "array"
+        },
+        "tags": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Tags",
+          "type": "array"
+        }
+      },
+      "title": "Sense",
+      "type": "object"
+    },
+    "Sound": {
+      "additionalProperties": false,
+      "properties": {
+        "audio": {
+          "default": "",
+          "description": "Audio file name",
+          "title": "Audio",
+          "type": "string"
+        },
+        "ipa": {
+          "default": "",
+          "description": "International Phonetic Alphabet",
+          "title": "Ipa",
+          "type": "string"
+        },
+        "mp3_url": {
+          "default": "",
+          "title": "Mp3 Url",
+          "type": "string"
+        },
+        "oga_url": {
+          "default": "",
+          "title": "Oga Url",
+          "type": "string"
+        },
+        "ogg_url": {
+          "default": "",
+          "title": "Ogg Url",
+          "type": "string"
+        },
+        "opus_url": {
+          "default": "",
+          "title": "Opus Url",
+          "type": "string"
+        },
+        "tags": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Tags",
+          "type": "array"
+        },
+        "wav_url": {
+          "default": "",
+          "title": "Wav Url",
+          "type": "string"
+        },
+        "zh_pron": {
+          "default": "",
+          "description": "Chinese word pronunciation",
+          "title": "Zh Pron",
+          "type": "string"
+        }
+      },
+      "title": "Sound",
+      "type": "object"
+    },
+    "Translation": {
+      "additionalProperties": false,
+      "properties": {
+        "lang_code": {
+          "default": "",
+          "description": "Wiktionary language code of the translation term",
+          "title": "Lang Code",
+          "type": "string"
+        },
+        "lang_name": {
+          "default": "",
+          "description": "Translation language name",
+          "title": "Lang Name",
+          "type": "string"
+        },
+        "roman": {
+          "default": "",
+          "title": "Roman",
+          "type": "string"
+        },
+        "sense": {
+          "default": "",
+          "description": "Translation gloss",
+          "title": "Sense",
+          "type": "string"
+        },
+        "tags": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Tags",
+          "type": "array"
+        },
+        "traditional_writing": {
+          "default": "",
+          "description": "Alternative writting for Chinese, Korean and Mongolian",
+          "title": "Traditional Writing",
+          "type": "string"
+        },
+        "word": {
+          "default": "",
+          "description": "Translation term",
+          "title": "Word",
+          "type": "string"
+        }
+      },
+      "title": "Translation",
+      "type": "object"
+    }
+  },
+  "$id": "https://kaikki.org/fr.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "abbreviation": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/Linkage"
+      },
+      "title": "Abbreviation",
+      "type": "array"
+    },
+    "categories": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Categories",
+      "type": "array"
+    },
+    "derived": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/Linkage"
+      },
+      "title": "Derived",
+      "type": "array"
+    },
+    "etymology_texts": {
+      "default": [],
+      "description": "Etymology list",
+      "items": {
+        "type": "string"
+      },
+      "title": "Etymology Texts",
+      "type": "array"
+    },
+    "forms": {
+      "default": [],
+      "description": "Inflection forms list",
+      "items": {
+        "$ref": "#/$defs/Form"
+      },
+      "title": "Forms",
+      "type": "array"
+    },
+    "holonyms": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/Linkage"
+      },
+      "title": "Holonyms",
+      "type": "array"
+    },
+    "hypernyms": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/Linkage"
+      },
+      "title": "Hypernyms",
+      "type": "array"
+    },
+    "hyponyms": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/Linkage"
+      },
+      "title": "Hyponyms",
+      "type": "array"
+    },
+    "lang_code": {
+      "description": "Wiktionary language code",
+      "title": "Lang Code",
+      "type": "string"
+    },
+    "lang_name": {
+      "description": "Localized language name",
+      "title": "Lang Name",
+      "type": "string"
+    },
+    "meronyms": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/Linkage"
+      },
+      "title": "Meronyms",
+      "type": "array"
+    },
+    "notes": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Notes",
+      "type": "array"
+    },
+    "paronyms": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/Linkage"
+      },
+      "title": "Paronyms",
+      "type": "array"
+    },
+    "pos": {
+      "default": "",
+      "description": "Part of speech type",
+      "title": "Pos",
+      "type": "string"
+    },
+    "pos_title": {
+      "default": "",
+      "description": "Original POS title for matching etymology texts",
+      "title": "Pos Title",
+      "type": "string"
+    },
+    "proverbs": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/Linkage"
+      },
+      "title": "Proverbs",
+      "type": "array"
+    },
+    "redirect": {
+      "default": "",
+      "description": "Redirect page target title",
+      "title": "Redirect",
+      "type": "string"
+    },
+    "related": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/Linkage"
+      },
+      "title": "Related",
+      "type": "array"
+    },
+    "senses": {
+      "default": [],
+      "description": "Sense list",
+      "items": {
+        "$ref": "#/$defs/Sense"
+      },
+      "title": "Senses",
+      "type": "array"
+    },
+    "sounds": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/Sound"
+      },
+      "title": "Sounds",
+      "type": "array"
+    },
+    "synonyms": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/Linkage"
+      },
+      "title": "Synonyms",
+      "type": "array"
+    },
+    "tags": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Tags",
+      "type": "array"
+    },
+    "title": {
+      "default": "",
+      "description": "Redirect page source title",
+      "title": "Title",
+      "type": "string"
+    },
+    "translations": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/Translation"
+      },
+      "title": "Translations",
+      "type": "array"
+    },
+    "troponyms": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/Linkage"
+      },
+      "title": "Troponyms",
+      "type": "array"
+    },
+    "word": {
+      "description": "Word string",
+      "title": "Word",
+      "type": "string"
+    }
+  },
+  "required": [
+    "word",
+    "lang_code",
+    "lang_name"
+  ],
+  "title": "French Wiktionary",
+  "type": "object"
+}
