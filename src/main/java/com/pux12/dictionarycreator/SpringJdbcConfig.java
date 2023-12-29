@@ -15,7 +15,9 @@ public class SpringJdbcConfig {
   public DataSource dataSource() {
     return new EmbeddedDatabaseBuilder()
         .setType(EmbeddedDatabaseType.H2)
+        .setName("file:D:/ProgrammingStuff/wiktionaries/wiktdb")
         .addScript("classpath:jdbc/schema.sql")
-        .addScript("classpath:jdbc/data.sql").build();
+        .addScript("classpath:jdbc/data.sql")
+        .build();
   }
 }
