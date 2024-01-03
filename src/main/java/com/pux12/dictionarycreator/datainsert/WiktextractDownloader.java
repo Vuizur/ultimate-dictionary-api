@@ -10,7 +10,24 @@ import java.util.zip.GZIPInputStream;
 
 public class WiktextractDownloader {
 
-    public static final String outDir = "D:\\ProgrammingStuff\\wiktionaries\\";
+    public static final String outDir = "D:\\ProgrammingStuff\\kaikki\\";
+
+    public static String[] urls = {
+            "https://kaikki.org/dictionary/raw-wiktextract-data.json.gz",
+            "https://kaikki.org/dictionary/downloads/zh/zh-extract.json.gz",
+            "https://kaikki.org/dictionary/downloads/fr/fr-extract.json.gz",
+            "https://kaikki.org/dictionary/downloads/de/de-extract.json.gz",
+            "https://kaikki.org/dictionary/downloads/ru/ru-extract.json.gz",
+            "https://kaikki.org/dictionary/downloads/es/es-extract.json.gz"
+    };
+
+    public static String[] getWiktionaryDumpPaths() {
+        String[] schemaFilePaths = new String[urls.length];
+        for (int i = 0; i < urls.length; i++) {
+            schemaFilePaths[i] = outDir + urls[i].substring(urls[i].lastIndexOf('/') + 1, urls[i].lastIndexOf('.'));
+        }
+        return schemaFilePaths;
+    }
     // Define a method to download and extract a file from a URL
     public static void downloadAndExtract(String url, String outputDir) throws IOException {
         // Create a URL object from the string

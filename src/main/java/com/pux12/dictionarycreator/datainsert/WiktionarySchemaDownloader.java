@@ -1,13 +1,24 @@
 package com.pux12.dictionarycreator.datainsert;
 
 public class WiktionarySchemaDownloader {
+
+    public static final String[] languages = {"de", "es", "fr", "ru", "zh"};
+    public static final String schemaBaseDir = "src/main/resources/wiktionary/";
+
+    public static String[] getSchemaFilePaths() {
+        String[] schemaFilePaths = new String[languages.length];
+        for (int i = 0; i < languages.length; i++) {
+            schemaFilePaths[i] = schemaBaseDir + languages[i] + ".json";
+        }
+        return schemaFilePaths;
+    }
+
     public static void main(String[] args) {
         //Schemas are in form of https://tatuylonen.github.io/wiktextract/de.json
         // Download for languages de, es, fr, ru, zh
-        var languages = new String[] {"de", "es", "fr", "ru", "zh"};
         for (var language : languages) {
             var url = "https://tatuylonen.github.io/wiktextract/" + language + ".json";
-            var filename = "src/main/resources/wiktionary/" + language + ".json";
+            var filename = schemaBaseDir + language + ".json";
             System.out.println("Downloading " + url + " to " + filename);
             try {
                 var uri = new java.net.URI(url);
