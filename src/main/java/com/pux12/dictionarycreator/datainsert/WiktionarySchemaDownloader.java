@@ -1,4 +1,4 @@
-package com.pux12.dictionarycreator;
+package com.pux12.dictionarycreator.datainsert;
 
 public class WiktionarySchemaDownloader {
     public static void main(String[] args) {

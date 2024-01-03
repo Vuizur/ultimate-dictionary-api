@@ -1,4 +1,4 @@
-package com.pux12.dictionarycreator;
+package com.pux12.dictionarycreator.datainsert;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -9,6 +9,8 @@ import java.net.URL;
 import java.util.zip.GZIPInputStream;
 
 public class WiktextractDownloader {
+
+    public static final String outDir = "D:\\ProgrammingStuff\\wiktionaries\\";
     // Define a method to download and extract a file from a URL
     public static void downloadAndExtract(String url, String outputDir) throws IOException {
         // Create a URL object from the string
@@ -44,7 +46,7 @@ public class WiktextractDownloader {
         new File(outputDir + fileName).delete();
     }
 
-    public static void downloadAllWiktionaries(String outputDir) throws IOException {
+    public static void downloadAllWiktionaries() throws IOException {
         // Define the URLs to download and extract
         String[] urls = {
                 "https://kaikki.org/dictionary/raw-wiktextract-data.json.gz",
@@ -56,15 +58,14 @@ public class WiktextractDownloader {
         };
         // Loop through the URLs and call the download and extract method
         for (String url : urls) {
-            downloadAndExtract(url, outputDir);
+            downloadAndExtract(url, outDir);
         }
     }
 
     // Define a main method to test the download and extract method
     public static void main(String[] args) throws IOException {
         // Define the output directory
-        String outputDir = "D:\\ProgrammingStuff\\wiktionaries\\";
         // Call the download and extract method
-        downloadAllWiktionaries(outputDir);
+        downloadAllWiktionaries();
     }
 }
