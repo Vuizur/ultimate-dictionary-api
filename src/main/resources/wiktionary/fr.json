@@ -39,6 +39,11 @@
           "title": "Form",
           "type": "string"
         },
+        "hiragana": {
+          "default": "",
+          "title": "Hiragana",
+          "type": "string"
+        },
         "ipas": {
           "default": [],
           "items": {
@@ -47,9 +52,14 @@
           "title": "Ipas",
           "type": "array"
         },
+        "roman": {
+          "default": "",
+          "title": "Roman",
+          "type": "string"
+        },
         "source": {
           "default": "",
-          "description": "Form line template name",
+          "description": "Form line template name or Conjugaison page title",
           "title": "Source",
           "type": "string"
         },
@@ -74,16 +84,16 @@
           "title": "Alt",
           "type": "string"
         },
+        "lang": {
+          "default": "",
+          "description": "Localized language name",
+          "title": "Lang",
+          "type": "string"
+        },
         "lang_code": {
           "default": "",
           "description": "Wiktionary language code",
           "title": "Lang Code",
-          "type": "string"
-        },
-        "lang_name": {
-          "default": "",
-          "description": "Localized language name",
-          "title": "Lang Name",
           "type": "string"
         },
         "roman": {
@@ -153,6 +163,11 @@
           },
           "title": "Glosses",
           "type": "array"
+        },
+        "note": {
+          "default": "",
+          "title": "Note",
+          "type": "string"
         },
         "tags": {
           "default": [],
@@ -227,16 +242,16 @@
     "Translation": {
       "additionalProperties": false,
       "properties": {
+        "lang": {
+          "default": "",
+          "description": "Translation language name",
+          "title": "Lang",
+          "type": "string"
+        },
         "lang_code": {
           "default": "",
           "description": "Wiktionary language code of the translation term",
           "title": "Lang Code",
-          "type": "string"
-        },
-        "lang_name": {
-          "default": "",
-          "description": "Translation language name",
-          "title": "Lang Name",
           "type": "string"
         },
         "roman": {
@@ -249,6 +264,13 @@
           "description": "Translation gloss",
           "title": "Sense",
           "type": "string"
+        },
+        "sense_index": {
+          "default": 0,
+          "description": "Number of the definition, start from 1",
+          "minimum": 0,
+          "title": "Sense Index",
+          "type": "integer"
         },
         "tags": {
           "default": [],
@@ -345,14 +367,14 @@
       "title": "Hyponyms",
       "type": "array"
     },
+    "lang": {
+      "description": "Localized language name",
+      "title": "Lang",
+      "type": "string"
+    },
     "lang_code": {
       "description": "Wiktionary language code",
       "title": "Lang Code",
-      "type": "string"
-    },
-    "lang_name": {
-      "description": "Localized language name",
-      "title": "Lang Name",
       "type": "string"
     },
     "meronyms": {
@@ -477,7 +499,7 @@
   "required": [
     "word",
     "lang_code",
-    "lang_name"
+    "lang"
   ],
   "title": "French Wiktionary",
   "type": "object"

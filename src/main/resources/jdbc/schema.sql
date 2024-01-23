@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS etym (
     word TEXT,
     pos TEXT,
     lang_code TEXT,
-    lang TEXT
+    lang TEXT,
     wiktionary_code TEXT,
     senses JSON,
     translations JSON

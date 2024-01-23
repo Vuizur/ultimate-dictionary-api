@@ -3,157 +3,80 @@
     "Example": {
       "additionalProperties": false,
       "properties": {
-        "ref": {
-          "anyOf": [
-            {
-              "$ref": "#/$defs/Reference"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
-          "description": ""
+        "author": {
+          "default": "",
+          "description": "Author's name",
+          "title": "Author",
+          "type": "string"
+        },
+        "collection": {
+          "default": "",
+          "description": "Name of the collection the example was taken from",
+          "title": "Collection",
+          "type": "string"
+        },
+        "date": {
+          "default": "",
+          "description": "Original date",
+          "title": "Date",
+          "type": "string"
+        },
+        "date_published": {
+          "default": "",
+          "description": "Date of publication",
+          "title": "Date Published",
+          "type": "string"
+        },
+        "editor": {
+          "default": "",
+          "description": "Editor",
+          "title": "Editor",
+          "type": "string"
+        },
+        "source": {
+          "default": "",
+          "description": "Source of reference, corresponds to template parameter 'источник'",
+          "title": "Source",
+          "type": "string"
         },
         "text": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
+          "default": "",
           "description": "Example usage sentence",
-          "title": "Text"
+          "title": "Text",
+          "type": "string"
+        },
+        "title": {
+          "default": "",
+          "description": "Title of the reference",
+          "title": "Title",
+          "type": "string"
         },
         "translation": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
+          "default": "",
           "description": "Spanish translation of the example sentence",
-          "title": "Translation"
+          "title": "Translation",
+          "type": "string"
+        },
+        "translator": {
+          "default": "",
+          "description": "Translator",
+          "title": "Translator",
+          "type": "string"
         }
       },
       "title": "Example",
       "type": "object"
     },
-    "Reference": {
+    "Linkage": {
       "additionalProperties": false,
       "properties": {
-        "author": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
-          "description": "Author's name",
-          "title": "Author"
-        },
-        "collection": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
-          "description": "Name of the collection the example was taken from",
-          "title": "Collection"
-        },
-        "date": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
-          "description": "Original date",
-          "title": "Date"
-        },
-        "date_published": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
-          "description": "Date of publication",
-          "title": "Date Published"
-        },
-        "editor": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
-          "description": "Editor",
-          "title": "Editor"
-        },
-        "source": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
-          "description": "Source of reference, corresponds to template parameter 'источник'",
-          "title": "Source"
-        },
-        "title": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
-          "description": "Title of the reference",
-          "title": "Title"
-        },
-        "translator": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
-          "description": "Translator",
-          "title": "Translator"
+        "word": {
+          "default": "",
+          "title": "Word",
+          "type": "string"
         }
       },
-      "title": "Reference",
+      "title": "Linkage",
       "type": "object"
     },
     "Sense": {
@@ -177,18 +100,14 @@
           "title": "Examples",
           "type": "array"
         },
-        "gloss": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
+        "glosses": {
+          "default": [],
           "description": "Gloss string for the word sense. This has been cleaned, and should be straightforward text with no tags.",
-          "title": "Gloss"
+          "items": {
+            "type": "string"
+          },
+          "title": "Glosses",
+          "type": "array"
         },
         "notes": {
           "default": [],
@@ -199,18 +118,14 @@
           "title": "Notes",
           "type": "array"
         },
-        "raw_gloss": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
+        "raw_glosses": {
+          "default": [],
           "description": "Raw gloss string for the word sense. This might contain tags and other markup.",
-          "title": "Raw Gloss"
+          "items": {
+            "type": "string"
+          },
+          "title": "Raw Glosses",
+          "type": "array"
         },
         "tags": {
           "default": [],
@@ -229,122 +144,59 @@
       "additionalProperties": false,
       "properties": {
         "audio": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
+          "default": "",
           "description": "Audio file name",
-          "title": "Audio"
+          "title": "Audio",
+          "type": "string"
         },
         "flac_url": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
-          "title": "Flac Url"
+          "default": "",
+          "title": "Flac Url",
+          "type": "string"
         },
         "homophones": {
-          "anyOf": [
-            {
-              "items": {
-                "type": "string"
-              },
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
           "default": [],
           "description": "Words with same pronunciation",
-          "title": "Homophones"
+          "items": {
+            "$ref": "#/$defs/Linkage"
+          },
+          "title": "Homophones",
+          "type": "array"
         },
         "ipa": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
+          "default": "",
           "description": "International Phonetic Alphabet",
-          "title": "Ipa"
+          "title": "Ipa",
+          "type": "string"
         },
         "mp3_url": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
-          "title": "Mp3 Url"
+          "default": "",
+          "title": "Mp3 Url",
+          "type": "string"
         },
         "oga_url": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
-          "title": "Oga Url"
+          "default": "",
+          "title": "Oga Url",
+          "type": "string"
         },
         "ogg_url": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
-          "title": "Ogg Url"
+          "default": "",
+          "title": "Ogg Url",
+          "type": "string"
         },
         "tags": {
-          "anyOf": [
-            {
-              "items": {
-                "type": "string"
-              },
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
           "default": [],
           "description": "Specifying the variant of the pronunciation",
-          "title": "Tags"
+          "items": {
+            "type": "string"
+          },
+          "title": "Tags",
+          "type": "array"
         },
         "wav_url": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
-          "title": "Wav Url"
+          "default": "",
+          "title": "Wav Url",
+          "type": "string"
         }
       },
       "title": "Sound",
@@ -353,28 +205,36 @@
     "Translation": {
       "additionalProperties": false,
       "properties": {
+        "lang": {
+          "description": "Localized language name of the translation term",
+          "title": "Lang",
+          "type": "string"
+        },
         "lang_code": {
+          "default": "",
           "description": "Wiktionary language code of the translation term",
           "title": "Lang Code",
           "type": "string"
         },
-        "lang_name": {
-          "description": "Localized language name of the translation term",
-          "title": "Lang Name",
+        "roman": {
+          "default": "",
+          "description": "Romanization of the word",
+          "title": "Roman",
           "type": "string"
         },
         "sense": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
+          "default": "",
           "description": "An optional gloss describing the sense translated",
-          "title": "Sense"
+          "title": "Sense",
+          "type": "string"
+        },
+        "tags": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Tags",
+          "type": "array"
         },
         "word": {
           "description": "Translation term",
@@ -384,8 +244,7 @@
       },
       "required": [
         "word",
-        "lang_code",
-        "lang_name"
+        "lang"
       ],
       "title": "Translation",
       "type": "object"
@@ -397,36 +256,22 @@
   "description": "WordEntry is a dictionary containing lexical information of a single word extracted from Wiktionary with wiktextract.",
   "properties": {
     "anagrams": {
-      "anyOf": [
-        {
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        },
-        {
-          "type": "null"
-        }
-      ],
       "default": [],
       "description": "List of anagrams",
-      "title": "Anagrams"
+      "items": {
+        "$ref": "#/$defs/Linkage"
+      },
+      "title": "Anagrams",
+      "type": "array"
     },
     "antonyms": {
-      "anyOf": [
-        {
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        },
-        {
-          "type": "null"
-        }
-      ],
       "default": [],
       "description": "List of antonyms",
-      "title": "Antonyms"
+      "items": {
+        "$ref": "#/$defs/Linkage"
+      },
+      "title": "Antonyms",
+      "type": "array"
     },
     "categories": {
       "default": [],
@@ -438,84 +283,57 @@
       "type": "array"
     },
     "coordinate_terms": {
-      "anyOf": [
-        {
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        },
-        {
-          "type": "null"
-        }
-      ],
       "default": [],
       "description": "List of coordinate terms",
-      "title": "Coordinate Terms"
+      "items": {
+        "$ref": "#/$defs/Linkage"
+      },
+      "title": "Coordinate Terms",
+      "type": "array"
     },
     "derived": {
-      "anyOf": [
-        {
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        },
-        {
-          "type": "null"
-        }
-      ],
       "default": [],
       "description": "List of derived terms",
-      "title": "Derived"
+      "items": {
+        "$ref": "#/$defs/Linkage"
+      },
+      "title": "Derived",
+      "type": "array"
     },
     "holonyms": {
-      "anyOf": [
-        {
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        },
-        {
-          "type": "null"
-        }
-      ],
       "default": [],
       "description": "List of holonyms",
-      "title": "Holonyms"
+      "items": {
+        "$ref": "#/$defs/Linkage"
+      },
+      "title": "Holonyms",
+      "type": "array"
     },
     "hypernyms": {
-      "anyOf": [
-        {
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        },
-        {
-          "type": "null"
-        }
-      ],
       "default": [],
       "description": "List of hypernyms",
-      "title": "Hypernyms"
+      "items": {
+        "$ref": "#/$defs/Linkage"
+      },
+      "title": "Hypernyms",
+      "type": "array"
     },
     "hyponyms": {
-      "anyOf": [
-        {
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        },
-        {
-          "type": "null"
-        }
-      ],
       "default": [],
       "description": "List of hyponyms",
-      "title": "Hyponyms"
+      "items": {
+        "$ref": "#/$defs/Linkage"
+      },
+      "title": "Hyponyms",
+      "type": "array"
+    },
+    "lang": {
+      "description": "Localized language name of the word",
+      "examples": [
+        "Русский"
+      ],
+      "title": "Lang",
+      "type": "string"
     },
     "lang_code": {
       "description": "Wiktionary language code",
@@ -525,118 +343,68 @@
       "title": "Lang Code",
       "type": "string"
     },
-    "lang_name": {
-      "description": "Localized language name of the word",
-      "examples": [
-        "Русский"
-      ],
-      "title": "Lang Name",
-      "type": "string"
-    },
     "meronyms": {
-      "anyOf": [
-        {
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        },
-        {
-          "type": "null"
-        }
-      ],
       "default": [],
       "description": "List of meronyms",
-      "title": "Meronyms"
+      "items": {
+        "$ref": "#/$defs/Linkage"
+      },
+      "title": "Meronyms",
+      "type": "array"
     },
     "pos": {
-      "default": null,
+      "default": "",
       "description": "Part of speech type",
       "title": "Pos",
       "type": "string"
     },
     "pos_title": {
-      "default": null,
+      "default": "",
       "description": "Original POS title",
       "title": "Pos Title",
       "type": "string"
     },
     "senses": {
-      "anyOf": [
-        {
-          "items": {
-            "$ref": "#/$defs/Sense"
-          },
-          "type": "array"
-        },
-        {
-          "type": "null"
-        }
-      ],
       "default": [],
-      "title": "Senses"
+      "items": {
+        "$ref": "#/$defs/Sense"
+      },
+      "title": "Senses",
+      "type": "array"
     },
     "sounds": {
-      "anyOf": [
-        {
-          "items": {
-            "$ref": "#/$defs/Sound"
-          },
-          "type": "array"
-        },
-        {
-          "type": "null"
-        }
-      ],
       "default": [],
-      "title": "Sounds"
+      "items": {
+        "$ref": "#/$defs/Sound"
+      },
+      "title": "Sounds",
+      "type": "array"
     },
     "synonyms": {
-      "anyOf": [
-        {
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        },
-        {
-          "type": "null"
-        }
-      ],
       "default": [],
       "description": "List of synonyms",
-      "title": "Synonyms"
+      "items": {
+        "$ref": "#/$defs/Linkage"
+      },
+      "title": "Synonyms",
+      "type": "array"
     },
     "translations": {
-      "anyOf": [
-        {
-          "items": {
-            "$ref": "#/$defs/Translation"
-          },
-          "type": "array"
-        },
-        {
-          "type": "null"
-        }
-      ],
       "default": [],
-      "title": "Translations"
+      "items": {
+        "$ref": "#/$defs/Translation"
+      },
+      "title": "Translations",
+      "type": "array"
     },
     "variants": {
-      "anyOf": [
-        {
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        },
-        {
-          "type": "null"
-        }
-      ],
       "default": [],
       "description": "List of variants",
-      "title": "Variants"
+      "items": {
+        "$ref": "#/$defs/Linkage"
+      },
+      "title": "Variants",
+      "type": "array"
     },
     "word": {
       "description": "word string",
@@ -647,7 +415,7 @@
   "required": [
     "word",
     "lang_code",
-    "lang_name"
+    "lang"
   ],
   "title": "Russian Wiktionary",
   "type": "object"

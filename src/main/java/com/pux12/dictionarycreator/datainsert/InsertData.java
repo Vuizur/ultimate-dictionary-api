@@ -9,11 +9,12 @@ import java.sql.Connection;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class InsertData {
+    public static final String url = "jdbc:postgresql://localhost:5432/wikt";
+    public static final String user = "postgres";
+    public static final String password = "silver";
 
     public static void main(String[] args) throws java.io.IOException {
-        String url = "jdbc:postgresql://localhost:5432/wikt";
-        String user = "postgres";
-        String password = "silver";
+
         try {
             Connection conn = java.sql.DriverManager.getConnection(url, user, password);
             System.out.println("Connected to the PostgreSQL server successfully.");
