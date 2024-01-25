@@ -4,17 +4,24 @@ import java.util.List;
 
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Form {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
     @ManyToOne
     @JoinColumn(name = "etymology_id")
     private Etymology etymology;
 
     private String form;
-    
+
     @ElementCollection
     private List<String> tags;
 
@@ -46,5 +53,13 @@ public class Form {
     public String toString() {
         return "Form [form=" + form + ", tags=" + tags + "]";
     }
-    
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
 }

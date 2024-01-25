@@ -1,11 +1,18 @@
 package com.pux12.dictionarycreator.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Translation {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
     @ManyToOne
     @JoinColumn(name = "etymology_id")
     private Etymology etymology;
@@ -54,5 +61,13 @@ public class Translation {
 
     public void setEtymology(Etymology etymology) {
         this.etymology = etymology;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }
