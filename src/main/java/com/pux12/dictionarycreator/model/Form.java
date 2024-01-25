@@ -25,6 +25,9 @@ public class Form {
     @ElementCollection
     private List<String> tags;
 
+    public Form() {
+    }
+
     public Etymology getEtymology() {
         return etymology;
     }

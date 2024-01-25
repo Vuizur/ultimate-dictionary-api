@@ -26,6 +26,9 @@ public class Translation {
     // Index
     private String sense;
 
+    public Translation() {
+    }
+
     public String getWord() {
         return word;
     }

@@ -35,6 +35,9 @@ public class Etymology {
 
     private String sourceWiktionaryCode;
 
+    public Etymology() {
+    }
+
     public Etymology(String word, String pos, String langCode, String etymology, List<Form> forms, List<Sense> senses,
             List<Translation> translations, String sourceWiktionaryCode) {
         this.word = word;

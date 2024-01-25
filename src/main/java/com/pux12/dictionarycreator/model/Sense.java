@@ -28,6 +28,9 @@ public class Sense {
     @ElementCollection
     private List<String> glosses;
 
+    public Sense() {
+    }
+
     public Long getId() {
         return id;
     }
