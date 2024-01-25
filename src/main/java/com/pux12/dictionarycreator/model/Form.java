@@ -25,6 +25,11 @@ public class Form {
     @ElementCollection
     private List<String> tags;
 
+    public Form(String form, List<String> tags) {
+        this.form = form;
+        this.tags = tags;
+    }
+
     public Form() {
     }
 

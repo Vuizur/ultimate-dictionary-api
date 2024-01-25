@@ -26,6 +26,12 @@ public class Translation {
     // Index
     private String sense;
 
+    public Translation(String word, String lang_code, String sense) {
+        this.word = word;
+        this.lang_code = lang_code;
+        this.sense = sense;
+    }
+
     public Translation() {
     }
 

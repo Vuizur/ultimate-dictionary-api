@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.2.1</version>
+		<version>3.2.2</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.pux12</groupId>
@@ -60,7 +60,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-			<plugin>
+			<!-- <plugin>
 				<groupId>org.jsonschema2pojo</groupId>
 				<artifactId>jsonschema2pojo-maven-plugin</artifactId>
 				<version>1.2.1</version>
@@ -75,7 +75,7 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>
+			</plugin> -->
 		</plugins>
 	</build>
 

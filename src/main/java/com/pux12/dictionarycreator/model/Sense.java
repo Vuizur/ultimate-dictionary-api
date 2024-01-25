@@ -19,14 +19,17 @@ public class Sense {
     @ManyToOne
     @JoinColumn(name = "etymology_id")
     private Etymology etymology;
-
-    // Simplified, in the original there is also
-    @ElementCollection
-    private List<String> examples;
-
     // We probably need an additional Gloss Entity
     @ElementCollection
     private List<String> glosses;
+    // Simplified, in the original there is also more info
+    @ElementCollection
+    private List<String> examples;
+
+    public Sense(List<String> glosses, List<String> examples) {
+        this.glosses = glosses;
+        this.examples = examples;
+    }
 
     public Sense() {
     }

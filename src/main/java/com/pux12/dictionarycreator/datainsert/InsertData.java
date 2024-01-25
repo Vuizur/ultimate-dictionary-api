@@ -7,6 +7,7 @@ import java.sql.Connection;
 // jackson json
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pux12.dictionarycreator.repository.EtymologyRepository;
 
 public class InsertData {
     public static final String url = "jdbc:postgresql://localhost:5432/wikt";
@@ -80,16 +81,17 @@ public class InsertData {
                     }
 
                     // Insert the word into the database
-                    var insertWord = conn.prepareStatement(
-                            "INSERT INTO etym (word, pos, lang_code, senses, translations, source_wiktionary_code) VALUES (?, ?, ?, ?, ?, ?)");
-                    insertWord.setString(1, word);
-                    insertWord.setString(2, pos);
-                    insertWord.setString(3, langCode);
-                    insertWord.setString(4, senses);
-                    insertWord.setString(5, translations);
-                    insertWord.setString(6, sourceWiktionaryCode);
-                    insertWord.executeUpdate();
-                    insertWord.close();
+                    //var insertWord = conn.prepareStatement(
+                    //        "INSERT INTO etym (word, pos, lang_code, senses, translations, source_wiktionary_code) VALUES (?, ?, ?, ?, ?, ?)");
+                    //insertWord.setString(1, word);
+                    //insertWord.setString(2, pos);
+                    //insertWord.setString(3, langCode);
+                    //insertWord.setString(4, senses);
+                    //insertWord.setString(5, translations);
+                    //insertWord.setString(6, sourceWiktionaryCode);
+                    //insertWord.executeUpdate();
+                    //insertWord.close();
+
                 }
 
 
