@@ -1,5 +1,8 @@
 package com.pux12.dictionarycreator.datainsert;
 
+// Ignore this
+// I currently don't use it
+
 public class WiktionarySchemaDownloader {
 
     public static final String[] languages = { "de", "es", "fr", "ru", "zh" };
@@ -12,32 +15,6 @@ public class WiktionarySchemaDownloader {
         }
         return schemaFilePaths;
     }
-
-    // public static void createCombinedSchema() {
-    // // Create a combined schema with anyOf
-    // var combinedSchema = new org.json.JSONObject();
-    // combinedSchema.put("$schema", "http://json-schema.org/draft-07/schema#");
-    // combinedSchema.put("anyOf", new org.json.JSONArray());
-    // for (var language : languages) {
-    // var schema = new org.json.JSONObject();
-    // schema.put("$ref", "wiktionary/" + language + ".json");
-    // combinedSchema.getJSONArray("anyOf").put(schema);
-    // }
-    // var filename = "src/main/resources/wiktionary/combined.json";
-    // System.out.println("Writing combined schema to " + filename);
-    // try {
-    // var file = new java.io.File(filename);
-    // var parentDir = file.getParentFile();
-    // if (!parentDir.exists()) {
-    // parentDir.mkdirs();
-    // }
-    // var writer = new java.io.FileWriter(filename);
-    // writer.write(combinedSchema.toString(2));
-    // writer.close();
-    // } catch (Exception e) {
-    // System.out.println("Error writing " + filename + ": " + e);
-    // }
-    // }
 
     public static void main(String[] args) {
         // Schemas are in form of https://tatuylonen.github.io/wiktextract/de.json
