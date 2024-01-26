@@ -35,19 +35,15 @@ public class Etymology {
 
     private String sourceWiktionaryCode;
 
-    public Etymology() {
-    }
-
-    public Etymology(String word, String pos, String langCode, String etymology, List<Form> forms, List<Sense> senses,
-            List<Translation> translations, String sourceWiktionaryCode) {
+    public Etymology(String word, String pos, String langCode, String etymology, String sourceWiktionaryCode) {
         this.word = word;
         this.pos = pos;
         this.langCode = langCode;
         this.etymology = etymology;
-        this.forms = forms;
-        this.senses = senses;
-        this.translations = translations;
         this.sourceWiktionaryCode = sourceWiktionaryCode;
+    }
+
+    public Etymology() {
     }
 
     public List<Sense> getSenses() {
