@@ -2,6 +2,9 @@ package com.pux12.dictionarycreator.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,12 +21,15 @@ public class Sense {
 
     @ManyToOne
     @JoinColumn(name = "etymology_id")
+    @JsonIgnore
     private Etymology etymology;
     // We probably need an additional Gloss Entity
     @ElementCollection
+    @Column(columnDefinition = "text")
     private List<String> glosses;
     // Simplified, in the original there is also more info
     @ElementCollection
+    @Column(columnDefinition = "text")
     private List<String> examples;
 
     public Sense(List<String> glosses, List<String> examples) {

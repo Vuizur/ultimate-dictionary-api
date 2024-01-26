@@ -2,6 +2,9 @@ package com.pux12.dictionarycreator.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,8 +21,10 @@ public class Form {
 
     @ManyToOne
     @JoinColumn(name = "etymology_id")
+    @JsonIgnore
     private Etymology etymology;
 
+    @Column(columnDefinition="text")
     private String form;
 
     @ElementCollection

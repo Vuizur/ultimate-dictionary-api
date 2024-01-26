@@ -1,5 +1,8 @@
 package com.pux12.dictionarycreator.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,6 +18,7 @@ public class Translation {
 
     @ManyToOne
     @JoinColumn(name = "etymology_id")
+    @JsonIgnore
     private Etymology etymology;
 
     // Index
@@ -24,6 +28,7 @@ public class Translation {
     private String lang_code;
 
     // Index
+    @Column(columnDefinition = "text")
     private String sense;
 
     public Translation(String word, String lang_code, String sense) {

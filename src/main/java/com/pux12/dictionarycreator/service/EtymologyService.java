@@ -78,7 +78,7 @@ public class EtymologyService {
 
                 System.out.println("#########");
                 System.out.println(dumpFile.getName());
-                for (int i = 0; i < 100; i++) {
+                for (int i = 0; i < 200; i++) {
                     // Parse the line as JSON
                     var line = dumpReader.readLine();
                     var json = mapper.readTree(line);
@@ -93,6 +93,9 @@ public class EtymologyService {
                     // Get the word if it exists
                     if (json.has("word")) {
                         word = json.get("word").asText();
+                    } else {
+                        // This is mostly redirects, which we for now ignore
+                        continue;
                     }
                     if (json.has("pos")) {
                         pos = json.get("pos").asText();
@@ -109,13 +112,13 @@ public class EtymologyService {
                             var glosses = new ArrayList<String>();
                             var examples = new ArrayList<String>();
                             if (senseJson.has("glosses")) {
-                                for (var glossJson : senseJson.get("raw_glosses")) {
+                                for (var glossJson : senseJson.get("glosses")) {
                                     glosses.add(glossJson.asText());
                                 }
                             }
                             if (senseJson.has("examples")) {
                                 for (var exampleText : senseJson.get("examples")) {
-                                    // TODO: Make it proper
+                                    // TODO: Make it proper, examples are actually more complicated than this
                                     if (exampleText.has("text")) {
                                         examples.add(exampleText.get("text").asText());
                                     }
@@ -125,16 +128,18 @@ public class EtymologyService {
                             senses.add(sense);
                         }
                     }
-                    if (json.has("translations")) {
-                        translations = json.get("translations").asText();
-                    }
+                    // if (json.has("translations")) {
+                    // translations = json.get("translations").asText();
+                    // }
+
 
                     // Insert using JPA
                     var etymology = new Etymology(word, pos, langCode, etym, sourceWiktionaryCode);
                     etymologyRepository.save(etymology);
 
                     // Insert the senses
-
+                    senses.forEach(sense -> sense.setEtymology(etymology));
+                    senses.forEach(sense -> senseRepository.save(sense));
                 }
 
                 dumpReader.close();
@@ -143,6 +148,27 @@ public class EtymologyService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void insertTestEtymology() {
+        var forms = new ArrayList<Form>();
+        var tags = new ArrayList<String>();
+        tags.add("gerund");
+        tags.add("past participle");
+        forms.add(new Form("tested", tags));
+        forms.add(new Form("testing", null));
+        var glosses = new ArrayList<String>();
+        glosses.add("to perform a test");
+        var senses = new ArrayList<Sense>();
+        senses.add(new Sense(glosses, null));
+        Etymology etymology = new Etymology("test", "noun", "en", "born from nothing", "en");
+        etymologyRepository.save(etymology);
+        etymology.setForms(forms);
+        etymology.setSenses(senses);
+        forms.forEach(form -> form.setEtymology(etymology));
+        senses.forEach(sense -> sense.setEtymology(etymology));
+        forms.forEach(form -> formRepository.save(form));
+        senses.forEach(sense -> senseRepository.save(sense));
     }
 
     @PostConstruct
@@ -154,24 +180,7 @@ public class EtymologyService {
             System.out.println("Data already inserted");
         } else {
             System.out.println("Inserting data");
-            var forms = new ArrayList<Form>();
-            var tags = new ArrayList<String>();
-            tags.add("gerund");
-            tags.add("past participle");
-            forms.add(new Form("tested", tags));
-            forms.add(new Form("testing", null));
-            var glosses = new ArrayList<String>();
-            glosses.add("to perform a test");
-            var senses = new ArrayList<Sense>();
-            senses.add(new Sense(glosses, null));
-            Etymology etymology = new Etymology("test", "noun", "en", "born from nothing", "en");
-            etymologyRepository.save(etymology);
-            etymology.setForms(forms);
-            etymology.setSenses(senses);
-            forms.forEach(form -> form.setEtymology(etymology));
-            senses.forEach(sense -> sense.setEtymology(etymology));
-            forms.forEach(form -> formRepository.save(form));
-            senses.forEach(sense -> senseRepository.save(sense));
+            insertDataFromWiktionary();
         }
     }
 }
