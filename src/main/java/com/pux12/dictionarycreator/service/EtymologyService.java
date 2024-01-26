@@ -45,6 +45,7 @@ public class EtymologyService {
 
     public void insertDataFromWiktionary() {
         ObjectMapper mapper = new ObjectMapper();
+        WiktextractDownloader downloader = new WiktextractDownloader();
 
         // Benchmark the time it takes to insert all the data
         long startTime = System.currentTimeMillis();
@@ -53,7 +54,7 @@ public class EtymologyService {
 
         try {
             // For each dump, print the first 10 lines
-            for (var dumpPath : WiktextractDownloader.getWiktionaryDumpPaths()) {
+            for (var dumpPath : downloader.getWiktionaryDumpPaths()) {
 
                 var dumpFile = new File(dumpPath);
                 // if dumpfile doesn't contain "ru" then continue
@@ -96,7 +97,7 @@ public class EtymologyService {
                     String langCode = null;
                     String etym = null;
                     var senses = new ArrayList<Sense>();
-                    String translations = null;
+                    //String translations = null;
 
                     // Get the word if it exists
                     if (json.has("word")) {
@@ -136,10 +137,6 @@ public class EtymologyService {
                             senses.add(sense);
                         }
                     }
-                    // if (json.has("translations")) {
-                    // translations = json.get("translations").asText();
-                    // }
-
                     // Insert using JPA
                     var etymology = new Etymology(word, pos, langCode, etym, sourceWiktionaryCode);
                     etymologyRepository.save(etymology);

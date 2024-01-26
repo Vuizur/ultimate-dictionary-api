@@ -6,11 +6,12 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Properties;
 import java.util.zip.GZIPInputStream;
 
 public class WiktextractDownloader {
 
-    public static final String outDir = "D:\\ProgrammingStuff\\kaikki\\";
+    public String outDir;
 
     public static String[] urls = {
             "https://kaikki.org/dictionary/raw-wiktextract-data.json.gz",
@@ -21,13 +22,14 @@ public class WiktextractDownloader {
             "https://kaikki.org/dictionary/downloads/es/es-extract.json.gz"
     };
 
-    public static String[] getWiktionaryDumpPaths() {
+    public String[] getWiktionaryDumpPaths() {
         String[] schemaFilePaths = new String[urls.length];
         for (int i = 0; i < urls.length; i++) {
             schemaFilePaths[i] = outDir + urls[i].substring(urls[i].lastIndexOf('/') + 1, urls[i].lastIndexOf('.'));
         }
         return schemaFilePaths;
     }
+
     // Define a method to download and extract a file from a URL
     public static void downloadAndExtract(String url, String outputDir) throws IOException {
         // Create a URL object from the string
@@ -63,7 +65,7 @@ public class WiktextractDownloader {
         new File(outputDir + fileName).delete();
     }
 
-    public static void downloadAllWiktionaries() throws IOException {
+    public void downloadAllWiktionaries() throws IOException {
         // Define the URLs to download and extract
         String[] urls = {
                 "https://kaikki.org/dictionary/raw-wiktextract-data.json.gz",
@@ -79,10 +81,21 @@ public class WiktextractDownloader {
         }
     }
 
+    public WiktextractDownloader() {
+        var prop = new Properties();
+        try {
+            prop.load(new FileInputStream("src/main/resources/custom.properties"));
+            outDir = prop.getProperty("outDir");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     // Define a main method to test the download and extract method
     public static void main(String[] args) throws IOException {
-        // Define the output directory
-        // Call the download and extract method
-        downloadAllWiktionaries();
+
+        var downloader = new WiktextractDownloader();
+        System.out.println(downloader.outDir);
+        downloader.downloadAllWiktionaries();
     }
 }
