@@ -46,8 +46,12 @@ public class EtymologyService {
     public void insertDataFromWiktionary() {
         ObjectMapper mapper = new ObjectMapper();
 
-        try {
+        // Benchmark the time it takes to insert all the data
+        long startTime = System.currentTimeMillis();
 
+        int totalInserts = 0;
+
+        try {
             // For each dump, print the first 10 lines
             for (var dumpPath : WiktextractDownloader.getWiktionaryDumpPaths()) {
 
@@ -78,9 +82,13 @@ public class EtymologyService {
 
                 System.out.println("#########");
                 System.out.println(dumpFile.getName());
-                for (int i = 0; i < 200; i++) {
-                    // Parse the line as JSON
-                    var line = dumpReader.readLine();
+                int i = 0;
+                String line = null;
+                while ((line = dumpReader.readLine()) != null) {
+
+                    if (i > 500) {
+                        break;
+                    }
                     var json = mapper.readTree(line);
 
                     String word = null;
@@ -132,7 +140,6 @@ public class EtymologyService {
                     // translations = json.get("translations").asText();
                     // }
 
-
                     // Insert using JPA
                     var etymology = new Etymology(word, pos, langCode, etym, sourceWiktionaryCode);
                     etymologyRepository.save(etymology);
@@ -140,6 +147,8 @@ public class EtymologyService {
                     // Insert the senses
                     senses.forEach(sense -> sense.setEtymology(etymology));
                     senses.forEach(sense -> senseRepository.save(sense));
+                    totalInserts++;
+                    i++;
                 }
 
                 dumpReader.close();
@@ -148,6 +157,15 @@ public class EtymologyService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        long endTime = System.currentTimeMillis();
+        // Print with HH:MM:SS.MS format
+        System.out.println("Inserting data took " + String.format("%02d:%02d:%02d.%04d",
+                (endTime - startTime) / 3600000, ((endTime - startTime) / 60000) % 60,
+                ((endTime - startTime) / 1000) % 60, (endTime - startTime) % 1000));
+
+        // Print insertions by seconds
+        System.out.println("Inserting data took " + totalInserts / ((endTime - startTime) / 1000) + " inserts/s");
     }
 
     public void insertTestEtymology() {
