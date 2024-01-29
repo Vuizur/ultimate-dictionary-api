@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -23,18 +24,9 @@ import com.pux12.dictionarycreator.repository.TranslationRepository;
 import jakarta.annotation.PostConstruct;
 
 @Service
-public class EtymologyService {
+public class InsertService {
     @Autowired
     private EtymologyRepository etymologyRepository;
-
-    @Autowired
-    private FormRepository formRepository;
-
-    @Autowired
-    private SenseRepository senseRepository;
-
-    @Autowired
-    private TranslationRepository translationRepository;
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -42,6 +34,8 @@ public class EtymologyService {
     public Etymology findByWord(String word) {
         return etymologyRepository.findByWord(word);
     }
+
+    private static final int BATCH_SIZE = 10000;
 
     public void insertDataFromWiktionary() {
         ObjectMapper mapper = new ObjectMapper();
@@ -53,6 +47,7 @@ public class EtymologyService {
         int totalInserts = 0;
 
         try {
+            List<Etymology> etymologies = new ArrayList<Etymology>();
             // For each dump, print the first 10 lines
             for (var dumpPath : downloader.getWiktionaryDumpPaths()) {
 
@@ -87,7 +82,7 @@ public class EtymologyService {
                 String line = null;
                 while ((line = dumpReader.readLine()) != null) {
 
-                    if (i > 500) {
+                    if (i > 20000) {
                         break;
                     }
                     var json = mapper.readTree(line);
@@ -97,7 +92,10 @@ public class EtymologyService {
                     String langCode = null;
                     String etym = null;
                     var senses = new ArrayList<Sense>();
-                    //String translations = null;
+                    var forms = new ArrayList<Form>();
+                    var translations = new ArrayList<Translation>();
+
+                    var etymology = new Etymology();
 
                     // Get the word if it exists
                     if (json.has("word")) {
@@ -134,21 +132,33 @@ public class EtymologyService {
                                 }
                             }
                             var sense = new Sense(glosses, examples);
+                            sense.setEtymology(etymology);
                             senses.add(sense);
                         }
                     }
-                    // Insert using JPA
-                    var etymology = new Etymology(word, pos, langCode, etym, sourceWiktionaryCode);
-                    etymologyRepository.save(etymology);
+                    etymology.setWord(word);
+                    etymology.setPos(pos);
+                    etymology.setLangCode(langCode);
+                    etymology.setEtymology(etym);
+                    etymology.setSourceWiktionaryCode(sourceWiktionaryCode);
+                    etymology.setSenses(senses);
+                    etymologies.add(etymology);
 
-                    // Insert the senses
-                    senses.forEach(sense -> sense.setEtymology(etymology));
-                    senses.forEach(sense -> senseRepository.save(sense));
                     totalInserts++;
                     i++;
+
+                    if (totalInserts % BATCH_SIZE == 0) {
+                        System.out.println("Inserting batch " + totalInserts / BATCH_SIZE);
+                        etymologyRepository.saveAll(etymologies);
+                        etymologies.clear();
+                    }
                 }
+                etymologyRepository.saveAll(etymologies);
 
                 dumpReader.close();
+
+                // Make sure everything is saved
+                etymologyRepository.flush();
             }
 
         } catch (Exception e) {
@@ -162,29 +172,32 @@ public class EtymologyService {
                 ((endTime - startTime) / 1000) % 60, (endTime - startTime) % 1000));
 
         // Print insertions by seconds
-        System.out.println("Inserting data took " + totalInserts / ((endTime - startTime) / 1000) + " inserts/s");
+        System.out.println("Inserting data took " + totalInserts / ((endTime - startTime) / 1000.0) + " inserts/s");
     }
 
-    public void insertTestEtymology() {
-        var forms = new ArrayList<Form>();
-        var tags = new ArrayList<String>();
-        tags.add("gerund");
-        tags.add("past participle");
-        forms.add(new Form("tested", tags));
-        forms.add(new Form("testing", null));
-        var glosses = new ArrayList<String>();
-        glosses.add("to perform a test");
-        var senses = new ArrayList<Sense>();
-        senses.add(new Sense(glosses, null));
-        Etymology etymology = new Etymology("test", "noun", "en", "born from nothing", "en");
-        etymologyRepository.save(etymology);
-        etymology.setForms(forms);
-        etymology.setSenses(senses);
-        forms.forEach(form -> form.setEtymology(etymology));
-        senses.forEach(sense -> sense.setEtymology(etymology));
-        forms.forEach(form -> formRepository.save(form));
-        senses.forEach(sense -> senseRepository.save(sense));
-    }
+    /*
+     * public void insertTestEtymology() {
+     * var forms = new ArrayList<Form>();
+     * var tags = new ArrayList<String>();
+     * tags.add("gerund");
+     * tags.add("past participle");
+     * forms.add(new Form("tested", tags));
+     * forms.add(new Form("testing", null));
+     * var glosses = new ArrayList<String>();
+     * glosses.add("to perform a test");
+     * var senses = new ArrayList<Sense>();
+     * senses.add(new Sense(glosses, null));
+     * Etymology etymology = new Etymology("test", "noun", "en",
+     * "born from nothing", "en");
+     * etymologyRepository.save(etymology);
+     * etymology.setForms(forms);
+     * etymology.setSenses(senses);
+     * forms.forEach(form -> form.setEtymology(etymology));
+     * senses.forEach(sense -> sense.setEtymology(etymology));
+     * forms.forEach(form -> formRepository.save(form));
+     * senses.forEach(sense -> senseRepository.save(sense));
+     * }
+     */
 
     @PostConstruct
     public void insertData() {

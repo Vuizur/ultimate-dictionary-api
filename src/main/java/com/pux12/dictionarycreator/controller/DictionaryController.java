@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pux12.dictionarycreator.model.Etymology;
-import com.pux12.dictionarycreator.service.EtymologyService;
+import com.pux12.dictionarycreator.service.InsertService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RestController
 public class DictionaryController {
     @Autowired
-    private EtymologyService etymologyService;
+    private InsertService etymologyService;
 
     @GetMapping("/")
     public String index() {
