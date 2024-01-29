@@ -17,25 +17,49 @@ import com.pux12.dictionarycreator.model.Form;
 import com.pux12.dictionarycreator.model.Sense;
 import com.pux12.dictionarycreator.model.Translation;
 import com.pux12.dictionarycreator.repository.EtymologyRepository;
-import com.pux12.dictionarycreator.repository.FormRepository;
-import com.pux12.dictionarycreator.repository.SenseRepository;
-import com.pux12.dictionarycreator.repository.TranslationRepository;
 
 import jakarta.annotation.PostConstruct;
 
 @Service
 public class InsertService {
+
     @Autowired
     private EtymologyRepository etymologyRepository;
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public Etymology findByWord(String word) {
-        return etymologyRepository.findByWord(word);
+    private static final int BATCH_SIZE = 10000;
+
+    public void disableAllIndexes() {
+        var code = """
+                DO $$
+                DECLARE
+                    t text;
+                BEGIN
+                    FOR t IN SELECT tablename FROM pg_tables WHERE schemaname = 'public' LOOP
+                        EXECUTE 'UPDATE pg_index SET indisready = false WHERE indrelid = ''' || t || '''::regclass;';
+                    END LOOP;
+                END;
+                $$;
+                    """;
+        jdbcTemplate.execute(code);
     }
 
-    private static final int BATCH_SIZE = 10000;
+    public void enableAllIndexes() {
+        var code = """
+                DO $$
+                DECLARE
+                    t text;
+                BEGIN
+                    FOR t IN SELECT tablename FROM pg_tables WHERE schemaname = 'public' LOOP
+                        EXECUTE 'UPDATE pg_index SET indisready = true WHERE indrelid = ''' || t || '''::regclass;';
+                    END LOOP;
+                END;
+                $$;
+                    """;
+        jdbcTemplate.execute(code);
+    }
 
     public void insertDataFromWiktionary() {
         ObjectMapper mapper = new ObjectMapper();
@@ -136,17 +160,60 @@ public class InsertService {
                             senses.add(sense);
                         }
                     }
+                    if (json.has("forms")) {
+                        // Iterate over the forms
+                        for (var formJson : json.get("forms")) {
+                            var tags = new ArrayList<String>();
+                            if (formJson.has("tags")) {
+                                for (var tagJson : formJson.get("tags")) {
+                                    tags.add(tagJson.asText());
+                                }
+                            }
+                            String formString = null;
+                            if (formJson.has("form")) {
+                                formString = formJson.get("form").asText();
+                            }
+                            var form = new Form(formString, tags);
+                            form.setEtymology(etymology);
+                            forms.add(form);
+                        }
+                    }
+                    if (json.has("translations")) {
+                        // Iterate over the translations
+                        for (var translationJson : json.get("translations")) {
+                            String senseString = null;
+                            // TODO: integrate senseID
+                            if (translationJson.has("sense")) {
+                                senseString = translationJson.get("sense").asText();
+                            }
+                            String wordString = null;
+                            if (translationJson.has("word")) {
+                                wordString = translationJson.get("word").asText();
+                            }
+                            String langString = null;
+                            if (translationJson.has("lang")) {
+                                langString = translationJson.get("lang").asText();
+                            }
+                            String codeString = null;
+                            if (translationJson.has("code")) {
+                                codeString = translationJson.get("code").asText();
+                            }
+                            var translation = new Translation(wordString, codeString, langString, senseString);
+                            translation.setEtymology(etymology);
+                            translations.add(translation);
+                        }
+                    }
                     etymology.setWord(word);
                     etymology.setPos(pos);
                     etymology.setLangCode(langCode);
                     etymology.setEtymology(etym);
                     etymology.setSourceWiktionaryCode(sourceWiktionaryCode);
                     etymology.setSenses(senses);
+                    etymology.setForms(forms);
+                    etymology.setTranslations(translations);
                     etymologies.add(etymology);
-
                     totalInserts++;
                     i++;
-
                     if (totalInserts % BATCH_SIZE == 0) {
                         System.out.println("Inserting batch " + totalInserts / BATCH_SIZE);
                         etymologyRepository.saveAll(etymologies);
@@ -156,9 +223,6 @@ public class InsertService {
                 etymologyRepository.saveAll(etymologies);
 
                 dumpReader.close();
-
-                // Make sure everything is saved
-                etymologyRepository.flush();
             }
 
         } catch (Exception e) {
@@ -172,7 +236,7 @@ public class InsertService {
                 ((endTime - startTime) / 1000) % 60, (endTime - startTime) % 1000));
 
         // Print insertions by seconds
-        System.out.println("Inserting data took " + totalInserts / ((endTime - startTime) / 1000.0) + " inserts/s");
+        System.out.println("Inserting data: " + totalInserts / ((endTime - startTime) / 1000.0) + " inserts/s");
     }
 
     /*
@@ -207,8 +271,10 @@ public class InsertService {
         if (!res.isEmpty()) {
             System.out.println("Data already inserted");
         } else {
+            //disableAllIndexes();
             System.out.println("Inserting data");
             insertDataFromWiktionary();
+            //enableAllIndexes();
         }
     }
 }

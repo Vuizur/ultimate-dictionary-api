@@ -16,7 +16,7 @@ import jakarta.persistence.ManyToOne;
 @Entity
 public class Sense {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @ManyToOne

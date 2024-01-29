@@ -10,23 +10,26 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Index;
 
 @Entity
-@Table(name = "etymology")
+@Table(name = "etymology")/* , indexes = { @Index(name = "idx_word", columnList = "word"),
+        @Index(name = "idx_lang_code", columnList = "lang_code"),
+        @Index(name = "idx_source_wiktionary_code", columnList = "source_wiktionary_code") }) */
 public class Etymology {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @Column(columnDefinition="text")
+    @Column(columnDefinition = "text")
     private String word;
 
-    @Column(columnDefinition="text")
+    @Column(columnDefinition = "text")
     private String pos;
 
     private String langCode;
 
-    @Column(columnDefinition="text")
+    @Column(columnDefinition = "text")
     private String etymology;
 
     @OneToMany(mappedBy = "etymology", cascade = CascadeType.ALL)
