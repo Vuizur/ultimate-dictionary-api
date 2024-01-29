@@ -13,9 +13,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Index;
 
 @Entity
-@Table(name = "etymology")/* , indexes = { @Index(name = "idx_word", columnList = "word"),
-        @Index(name = "idx_lang_code", columnList = "lang_code"),
-        @Index(name = "idx_source_wiktionary_code", columnList = "source_wiktionary_code") }) */
+@Table(name = "etymology")
 public class Etymology {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
