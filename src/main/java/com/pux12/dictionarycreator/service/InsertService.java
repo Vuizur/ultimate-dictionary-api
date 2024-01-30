@@ -209,30 +209,6 @@ public class InsertService {
         System.out.println("Inserting data: " + totalInserts / ((endTime - startTime) / 1000.0) + " inserts/s");
     }
 
-    /*
-     * public void insertTestEtymology() {
-     * var forms = new ArrayList<Form>();
-     * var tags = new ArrayList<String>();
-     * tags.add("gerund");
-     * tags.add("past participle");
-     * forms.add(new Form("tested", tags));
-     * forms.add(new Form("testing", null));
-     * var glosses = new ArrayList<String>();
-     * glosses.add("to perform a test");
-     * var senses = new ArrayList<Sense>();
-     * senses.add(new Sense(glosses, null));
-     * Etymology etymology = new Etymology("test", "noun", "en",
-     * "born from nothing", "en");
-     * etymologyRepository.save(etymology);
-     * etymology.setForms(forms);
-     * etymology.setSenses(senses);
-     * forms.forEach(form -> form.setEtymology(etymology));
-     * senses.forEach(sense -> sense.setEtymology(etymology));
-     * forms.forEach(form -> formRepository.save(form));
-     * senses.forEach(sense -> senseRepository.save(sense));
-     * }
-     */
-
     @PostConstruct
     public void insertData() {
         System.out.println("Inserting data");
