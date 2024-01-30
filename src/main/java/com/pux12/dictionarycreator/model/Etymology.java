@@ -10,7 +10,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.persistence.Index;
 
 @Entity
 @Table(name = "etymology")
@@ -37,7 +36,7 @@ public class Etymology {
     private List<Sense> senses;
 
     @OneToMany(mappedBy = "etymology", cascade = CascadeType.ALL)
-    private List<Translation> translations;
+    private List<EtymTranslation> translations;
 
     private String sourceWiktionaryCode;
 
@@ -60,11 +59,11 @@ public class Etymology {
         this.senses = senses;
     }
 
-    public List<Translation> getTranslations() {
+    public List<EtymTranslation> getTranslations() {
         return translations;
     }
 
-    public void setTranslations(List<Translation> translations) {
+    public void setTranslations(List<EtymTranslation> translations) {
         this.translations = translations;
     }
 

@@ -1,70 +1,30 @@
 package com.pux12.dictionarycreator.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MappedSuperclass;
 
-@Entity
-public class Translation {
+@MappedSuperclass
+public abstract class Translation {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "etymology_id")
-    @JsonIgnore
-    private Etymology etymology;
-
-    // Index
     private String word;
 
-    // Index
     private String code;
 
     private String lang;
 
-    // Index
-    @Column(columnDefinition = "text")
-    private String sense;
-
-    public Translation(String word, String code, String lang, String sense) {
+    public Translation(String word, String code, String lang) {
         this.word = word;
         this.code = code;
         this.lang = lang;
-        this.sense = sense;
     }
 
     public Translation() {
-    }
-
-    public String getWord() {
-        return word;
-    }
-
-    public void setWord(String word) {
-        this.word = word;
-    }
-
-    public String getSense() {
-        return sense;
-    }
-
-    public void setSense(String sense) {
-        this.sense = sense;
-    }
-
-    public Etymology getEtymology() {
-        return etymology;
-    }
-
-    public void setEtymology(Etymology etymology) {
-        this.etymology = etymology;
     }
 
     public Long getId() {
@@ -73,6 +33,14 @@ public class Translation {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getWord() {
+        return word;
+    }
+
+    public void setWord(String word) {
+        this.word = word;
     }
 
     public String getCode() {
@@ -90,4 +58,5 @@ public class Translation {
     public void setLang(String lang) {
         this.lang = lang;
     }
+
 }

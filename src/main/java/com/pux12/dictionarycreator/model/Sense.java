@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
@@ -12,6 +13,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Sense {
@@ -31,6 +33,9 @@ public class Sense {
     @ElementCollection
     @Column(columnDefinition = "text")
     private List<String> examples;
+
+    @OneToMany(mappedBy = "sense", cascade = CascadeType.ALL)
+    private List<SenseTranslation> translations;
 
     public Sense(List<String> glosses, List<String> examples) {
         this.glosses = glosses;
@@ -75,6 +80,14 @@ public class Sense {
 
     public void setEtymology(Etymology etymology) {
         this.etymology = etymology;
+    }
+
+    public List<SenseTranslation> getTranslations() {
+        return translations;
+    }
+
+    public void setTranslations(List<SenseTranslation> translations) {
+        this.translations = translations;
     }
 
 }
