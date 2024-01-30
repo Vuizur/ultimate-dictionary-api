@@ -11,8 +11,5 @@ public class EtymologyService {
     @Autowired
     private EtymologyRepository etymologyRepository;
 
-    public Etymology findByWord(String word) {
-        return etymologyRepository.findByWord(word);
-    }
 
 }

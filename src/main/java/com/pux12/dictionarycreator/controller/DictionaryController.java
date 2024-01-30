@@ -1,5 +1,7 @@
 package com.pux12.dictionarycreator.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,9 +18,6 @@ import org.springframework.data.domain.PageRequest;
 @RestController
 public class DictionaryController {
     @Autowired
-    private EtymologyService etymologyService;
-
-    @Autowired
     private EtymologyRepository etymologyRepository;
 
     @GetMapping("/")
@@ -27,8 +26,8 @@ public class DictionaryController {
     }
 
     @RequestMapping("word/{word}")
-    public Etymology findByWord(@PathVariable String word) {
-        return etymologyService.findByWord(word);
+    public List<Etymology> findByWord(@PathVariable String word) {
+        return etymologyRepository.findByWord(word);
     }
 
     @RequestMapping("source/{source_wiktionary_code}")
