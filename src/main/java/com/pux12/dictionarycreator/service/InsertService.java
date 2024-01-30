@@ -31,36 +31,6 @@ public class InsertService {
 
     private static final int BATCH_SIZE = 10000;
 
-    public void disableAllIndexes() {
-        var code = """
-                DO $$
-                DECLARE
-                    t text;
-                BEGIN
-                    FOR t IN SELECT tablename FROM pg_tables WHERE schemaname = 'public' LOOP
-                        EXECUTE 'UPDATE pg_index SET indisready = false WHERE indrelid = ''' || t || '''::regclass;';
-                    END LOOP;
-                END;
-                $$;
-                    """;
-        jdbcTemplate.execute(code);
-    }
-
-    public void enableAllIndexes() {
-        var code = """
-                DO $$
-                DECLARE
-                    t text;
-                BEGIN
-                    FOR t IN SELECT tablename FROM pg_tables WHERE schemaname = 'public' LOOP
-                        EXECUTE 'UPDATE pg_index SET indisready = true WHERE indrelid = ''' || t || '''::regclass;';
-                    END LOOP;
-                END;
-                $$;
-                    """;
-        jdbcTemplate.execute(code);
-    }
-
     public void insertDataFromWiktionary() {
         ObjectMapper mapper = new ObjectMapper();
         WiktextractDownloader downloader = new WiktextractDownloader();
@@ -271,10 +241,8 @@ public class InsertService {
         if (!res.isEmpty()) {
             System.out.println("Data already inserted");
         } else {
-            //disableAllIndexes();
             System.out.println("Inserting data");
             insertDataFromWiktionary();
-            //enableAllIndexes();
         }
     }
 }
