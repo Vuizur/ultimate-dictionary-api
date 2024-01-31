@@ -9,11 +9,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.pux12.dictionarycreator.model.Etymology;
 import com.pux12.dictionarycreator.repository.EtymologyRepository;
-import com.pux12.dictionarycreator.service.EtymologyService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 @RestController
 public class DictionaryController {
@@ -26,8 +27,8 @@ public class DictionaryController {
     }
 
     @RequestMapping("word/{word}")
-    public List<Etymology> findByWord(@PathVariable String word) {
-        return etymologyRepository.findByWord(word);
+    public ResponseEntity<String> findByWord(@PathVariable String word) {
+        return ResponseEntity.ok(etymologyRepository.findByWrd(word));
     }
 
     @RequestMapping("source/{source_wiktionary_code}")
@@ -35,6 +36,11 @@ public class DictionaryController {
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "50") int size) {
         return etymologyRepository.findBySourceWiktionaryCode(source_wiktionary_code, PageRequest.of(page, size));
+    }
+
+    @RequestMapping("random/{word}")
+    public Etymology findRandom(@PathVariable String word) {
+        return etymologyRepository.testRandom(word);
     }
 
 }
