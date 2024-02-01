@@ -42,8 +42,7 @@ public class InsertService {
         jdbcTemplate
                 .execute("CREATE INDEX etymology_source_wiktionary_code_idx ON etymology (source_wiktionary_code);");
         // translation_code
-        jdbcTemplate.execute("CREATE INDEX translation_code_idx ON translation (code);"); // TODO: might change in
-                                                                                          // future
+        jdbcTemplate.execute("CREATE INDEX translation_lang_code_idx ON translation (lang_code);");
         jdbcTemplate.execute("CREATE INDEX translation_word_idx ON translation (word);");
         // translation_etymology_id_idx
         jdbcTemplate.execute("CREATE INDEX translation_etymology_id_idx ON translation (etymology_id);");
@@ -199,6 +198,8 @@ public class InsertService {
                             String codeString = null;
                             if (translationJson.has("code")) {
                                 codeString = translationJson.get("code").asText();
+                            } else if (translationJson.has("lang_code")) {
+                                codeString = translationJson.get("lang_code").asText();
                             }
                             var translation = new Translation(wordString, codeString, langString, senseString);
                             translation.setEtymology(etymology);

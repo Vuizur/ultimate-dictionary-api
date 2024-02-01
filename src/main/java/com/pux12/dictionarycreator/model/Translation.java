@@ -26,7 +26,7 @@ public class Translation {
     private String word;
 
     // Index
-    private String code;
+    private String lang_code;
 
     private String lang;
 
@@ -34,9 +34,9 @@ public class Translation {
     @Column(columnDefinition = "text")
     private String sense;
 
-    public Translation(String word, String code, String lang, String sense) {
+    public Translation(String word, String lang_code, String lang, String sense) {
         this.word = word;
-        this.code = code;
+        this.lang_code = lang_code;
         this.lang = lang;
         this.sense = sense;
     }
@@ -76,19 +76,19 @@ public class Translation {
         this.id = id;
     }
 
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
     public String getLang() {
         return lang;
     }
 
     public void setLang(String lang) {
         this.lang = lang;
+    }
+
+    public String getLang_code() {
+        return lang_code;
+    }
+
+    public void setLang_code(String lang_code) {
+        this.lang_code = lang_code;
     }
 }
