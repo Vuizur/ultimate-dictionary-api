@@ -43,4 +43,9 @@ public class DictionaryController {
         return etymologyRepository.testRandom(word);
     }
 
+    @RequestMapping("translation/{sourceLangCode}/{targetLangCode}/{word}")
+    public List<String> findTranslation(@PathVariable String sourceLangCode, @PathVariable String targetLangCode,
+            @PathVariable String word) {
+        return etymologyRepository.findTranslation(sourceLangCode, targetLangCode, word);
+    }
 }
