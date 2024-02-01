@@ -2,6 +2,7 @@ package com.pux12.dictionarycreator.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -12,10 +13,11 @@ import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Sound {
-   @Id
+    @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
-
+    
+    @Column(columnDefinition = "text")
     String IPA;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -53,5 +55,5 @@ public class Sound {
     public void setEtymology(Etymology etymology) {
         this.etymology = etymology;
     }
-    
+
 }

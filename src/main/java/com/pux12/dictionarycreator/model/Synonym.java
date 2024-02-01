@@ -2,6 +2,7 @@ package com.pux12.dictionarycreator.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -21,6 +22,7 @@ public class Synonym {
     @JsonIgnore
     private Etymology etymology;
 
+    @Column(columnDefinition = "text")
     private String word;
 
     public Synonym(String word) {
