@@ -1,0 +1,3 @@
+* translation tags (especially for male/female)
+* Endpoint that allows creation of a dictionary
+* Endpoint that allows to enter base lang + target lang and display results
