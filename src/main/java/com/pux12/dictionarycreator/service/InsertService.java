@@ -15,6 +15,8 @@ import com.pux12.dictionarycreator.datainsert.WiktextractDownloader;
 import com.pux12.dictionarycreator.model.Etymology;
 import com.pux12.dictionarycreator.model.Form;
 import com.pux12.dictionarycreator.model.Sense;
+import com.pux12.dictionarycreator.model.Sound;
+import com.pux12.dictionarycreator.model.Synonym;
 import com.pux12.dictionarycreator.model.Translation;
 import com.pux12.dictionarycreator.repository.EtymologyRepository;
 
@@ -117,7 +119,8 @@ public class InsertService {
                     var senses = new ArrayList<Sense>();
                     var forms = new ArrayList<Form>();
                     var translations = new ArrayList<Translation>();
-
+                    var synonyms = new ArrayList<Synonym>();
+                    var sounds = new ArrayList<Sound>();
                     var etymology = new Etymology();
 
                     // Get the word if it exists
@@ -202,6 +205,31 @@ public class InsertService {
                             translations.add(translation);
                         }
                     }
+                    if (json.has("synonyms")) {
+                        for (var synonymJson : json.get("synonyms")) {
+                            String wordString = null;
+                            if (synonymJson.has("word")) {
+                                wordString = synonymJson.get("word").asText();
+                            }
+                            var synonym = new Synonym(wordString);
+                            synonym.setEtymology(etymology);
+                            synonyms.add(synonym);
+
+                        }
+                    }
+                    if (json.has("sounds")) {
+                        for (var soundJson : json.get("sounds")) {
+                            String ipa = null;
+                            if (soundJson.has("ipa")) {
+                                ipa = soundJson.get("ipa").asText();
+                            } else {
+                                continue;
+                            }
+                            var sound = new Sound(ipa);
+                            sound.setEtymology(etymology);
+                            sounds.add(sound);
+                        }
+                    }
                     etymology.setWord(word);
                     etymology.setPos(pos);
                     etymology.setLangCode(langCode);
@@ -210,6 +238,9 @@ public class InsertService {
                     etymology.setSenses(senses);
                     etymology.setForms(forms);
                     etymology.setTranslations(translations);
+                    etymology.setSynonyms(synonyms);
+                    etymology.setSounds(sounds);
+
                     etymologies.add(etymology);
                     totalInserts++;
                     i++;

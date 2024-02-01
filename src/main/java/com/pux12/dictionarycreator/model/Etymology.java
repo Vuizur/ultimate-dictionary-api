@@ -26,6 +26,9 @@ public class Etymology {
 
     private String langCode;
 
+    @OneToMany(mappedBy = "etymology", cascade = CascadeType.ALL)
+    private List<Sound> sounds;
+
     @Column(columnDefinition = "text")
     private String etymology;
 
@@ -36,17 +39,12 @@ public class Etymology {
     private List<Sense> senses;
 
     @OneToMany(mappedBy = "etymology", cascade = CascadeType.ALL)
+    private List<Synonym> synonyms;
+
+    @OneToMany(mappedBy = "etymology", cascade = CascadeType.ALL)
     private List<Translation> translations;
 
     private String sourceWiktionaryCode;
-
-    public Etymology(String word, String pos, String langCode, String etymology, String sourceWiktionaryCode) {
-        this.word = word;
-        this.pos = pos;
-        this.langCode = langCode;
-        this.etymology = etymology;
-        this.sourceWiktionaryCode = sourceWiktionaryCode;
-    }
 
     public Etymology() {
     }
@@ -128,6 +126,22 @@ public class Etymology {
         return "Etymology [id=" + id + ", word=" + word + ", pos=" + pos + ", langCode=" + langCode + ", etymology="
                 + etymology + ", forms=" + forms + ", senses=" + senses + ", translations=" + translations
                 + ", sourceWiktionaryCode=" + sourceWiktionaryCode + "]";
+    }
+
+    public List<Sound> getSounds() {
+        return sounds;
+    }
+
+    public void setSounds(List<Sound> sounds) {
+        this.sounds = sounds;
+    }
+
+    public List<Synonym> getSynonyms() {
+        return synonyms;
+    }
+
+    public void setSynonyms(List<Synonym> synonyms) {
+        this.synonyms = synonyms;
     }
 
 }
