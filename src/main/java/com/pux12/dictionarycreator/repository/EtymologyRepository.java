@@ -66,9 +66,20 @@ public interface EtymologyRepository extends JpaRepository<Etymology, Long> {
       join "translation" t2 on t2.etymology_id = t1.etymology_id and t1.sense = t2.sense
       where t2.lang_code = :targetLangCode and t1.lang_code = :sourceLangCode and t1.word = :word and t2.word is not null
         """, nativeQuery = true)
-  List<String> findTranslation(@Param("sourceLangCode") String sourceLangCode,
+  List<String> findContextLessTranslation(@Param("sourceLangCode") String sourceLangCode,
       @Param("targetLangCode") String targetLangCode, @Param("word") String word);
 
+  @Query(value = """
+      select e.word, e.pos, array_agg(distinct t.word), array_agg(distinct s.ipa) from etymology e
+      join "translation" t on e.id = t.etymology_id
+      left join sound s on s.etymology_id = e.id
+      where e.word = :word
+      and e.lang_code = :sourceLangCode
+      and t.lang_code = :targetLangCode
+      group by e.id
+      """, nativeQuery = true)
+  List<Object[]> findTranslationWithPosAndIPA(@Param("sourceLangCode") String sourceLangCode,
+      @Param("targetLangCode") String targetLangCode, @Param("word") String word);
 
   // find by source wiktionary code, paginated
   Page<Etymology> findBySourceWiktionaryCode(String source_wiktionary_code, Pageable pageable);

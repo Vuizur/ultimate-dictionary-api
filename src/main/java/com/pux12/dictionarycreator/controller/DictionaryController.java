@@ -40,6 +40,6 @@ public class DictionaryController {
     @RequestMapping("translation/{sourceLangCode}/{targetLangCode}/{word}")
     public List<String> findTranslation(@PathVariable String sourceLangCode, @PathVariable String targetLangCode,
             @PathVariable String word) {
-        return etymologyRepository.findTranslation(sourceLangCode, targetLangCode, word);
+        return etymologyRepository.findContextLessTranslation(sourceLangCode, targetLangCode, word);
     }
 }
