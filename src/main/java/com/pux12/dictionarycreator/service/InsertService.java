@@ -38,7 +38,7 @@ public class InsertService {
                 "CREATE INDEX IF NOT EXISTS etymology_word_idx ON etymology (word);",
                 "CREATE INDEX IF NOT EXISTS etymology_pos_idx ON etymology (pos);",
                 "CREATE INDEX IF NOT EXISTS etymology_lang_code_idx ON etymology (lang_code);",
-                // Word + lang_code index
+                "CREATE INDEX IF NOT EXISTS translation_etym_lang_code_idx ON translation USING btree (etymology_id, lang_code);",
                 "CREATE INDEX IF NOT EXISTS etymology_word_lang_code_idx ON etymology (word, lang_code);",
                 "CREATE INDEX IF NOT EXISTS etymology_source_wiktionary_code_idx ON etymology (source_wiktionary_code);",
                 "CREATE INDEX IF NOT EXISTS translation_lang_code_idx ON translation (lang_code);",
@@ -48,6 +48,8 @@ public class InsertService {
                 "CREATE INDEX IF NOT EXISTS sense_etymology_id_idx ON sense (etymology_id);",
                 "CREATE INDEX IF NOT EXISTS sense_examples_sense_id_idx ON sense_examples (sense_id);",
                 "CREATE INDEX IF NOT EXISTS sense_glosses_sense_id_idx ON sense_glosses (sense_id);",
+                "CREATE INDEX IF NOT EXISTS sound_etymology_id_idx ON sound (etymology_id);",
+                "CREATE INDEX IF NOT EXISTS synonym_etymology_id_idx ON synonym (etymology_id);",
                 "CREATE INDEX IF NOT EXISTS form_etymology_id_idx ON form (etymology_id);",
                 "CREATE INDEX IF NOT EXISTS form_form_idx ON form (form);",
                 "CREATE INDEX IF NOT EXISTS form_form_tags_idx ON form_tags (form_id);"
