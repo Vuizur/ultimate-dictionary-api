@@ -34,31 +34,23 @@ public class InsertService {
     private static final int BATCH_SIZE = 10000;
 
     public void createIndexes() {
-        // We create indexes manually because we absolutely don't need them before
-        // inserting data
-        jdbcTemplate.execute("CREATE INDEX etymology_word_idx ON etymology (word);");
-        jdbcTemplate.execute("CREATE INDEX etymology_pos_idx ON etymology (pos);");
-        jdbcTemplate.execute("CREATE INDEX etymology_lang_code_idx ON etymology (lang_code);");
-        jdbcTemplate
-                .execute("CREATE INDEX etymology_source_wiktionary_code_idx ON etymology (source_wiktionary_code);");
-        // translation_code
-        jdbcTemplate.execute("CREATE INDEX translation_lang_code_idx ON translation (lang_code);");
-        jdbcTemplate.execute("CREATE INDEX translation_word_idx ON translation (word);");
-        // translation_etymology_id_idx
-        jdbcTemplate.execute("CREATE INDEX translation_etymology_id_idx ON translation (etymology_id);");
-        // sense_etymology_id_idx
-        jdbcTemplate.execute("CREATE INDEX sense_etymology_id_idx ON sense (etymology_id);");
-        // sense_examples_sense_id_idx
-        jdbcTemplate.execute("CREATE INDEX sense_examples_sense_id_idx ON sense_examples (sense_id);");
-        // sense_glosses_sense_id_idx
-        jdbcTemplate.execute("CREATE INDEX sense_glosses_sense_id_idx ON sense_glosses (sense_id);");
-        // form_etymology_id_idx
-        jdbcTemplate.execute("CREATE INDEX form_etymology_id_idx ON form (etymology_id);");
-        // form_form_idx
-        jdbcTemplate.execute("CREATE INDEX form_form_idx ON form (form);");
-        // form_form_tags_idx
-        jdbcTemplate.execute("CREATE INDEX form_form_tags_idx ON form_tags (form_id);");
-
+        String[] sqlStatements = new String[] {
+                "CREATE INDEX etymology_word_idx ON etymology (word);",
+                "CREATE INDEX etymology_pos_idx ON etymology (pos);",
+                "CREATE INDEX etymology_lang_code_idx ON etymology (lang_code);",
+                "CREATE INDEX etymology_source_wiktionary_code_idx ON etymology (source_wiktionary_code);",
+                "CREATE INDEX translation_lang_code_idx ON translation (lang_code);",
+                "CREATE INDEX translation_word_idx ON translation (word);",
+                "CREATE INDEX translation_etymology_id_idx ON translation (etymology_id);",
+                "CREATE INDEX sense_etymology_id_idx ON sense (etymology_id);",
+                "CREATE INDEX sense_examples_sense_id_idx ON sense_examples (sense_id);",
+                "CREATE INDEX sense_glosses_sense_id_idx ON sense_glosses (sense_id);",
+                "CREATE INDEX form_etymology_id_idx ON form (etymology_id);",
+                "CREATE INDEX form_form_idx ON form (form);",
+                "CREATE INDEX form_form_tags_idx ON form_tags (form_id);"
+        };
+        // Execute the batch update
+        jdbcTemplate.batchUpdate(sqlStatements);
     }
 
     public void insertDataFromWiktionary() {
@@ -106,9 +98,11 @@ public class InsertService {
                 String line = null;
                 while ((line = dumpReader.readLine()) != null) {
 
-                    /* if (i > 20000) {
-                        break;
-                    } */
+                    /*
+                     * if (i > 20000) {
+                     * break;
+                     * }
+                     */
                     var json = mapper.readTree(line);
 
                     String word = null;
@@ -273,7 +267,7 @@ public class InsertService {
     @PostConstruct
     public void insertData() {
 
-        createIndexes(); //TODO: REMOVE!
+        createIndexes(); // TODO: REMOVE!
 
         System.out.println("Inserting data");
         var res = jdbcTemplate.query(
