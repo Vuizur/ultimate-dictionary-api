@@ -1,4 +1,4 @@
-package com.pux12.dictionarycreator.model;
+package com.pux12.dictionarycreator.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -12,24 +12,24 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity
-public class Sound {
+public class Synonym {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
-    
-    @Column(columnDefinition = "text")
-    String IPA;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "etymology_id")
     @JsonIgnore
     private Etymology etymology;
 
-    public Sound(String iPA) {
-        IPA = iPA;
+    @Column(columnDefinition = "text")
+    private String word;
+
+    public Synonym(String word) {
+        this.word = word;
     }
 
-    public Sound() {
+    public Synonym() {
     }
 
     public Long getId() {
@@ -40,14 +40,6 @@ public class Sound {
         this.id = id;
     }
 
-    public String getIPA() {
-        return IPA;
-    }
-
-    public void setIPA(String iPA) {
-        IPA = iPA;
-    }
-
     public Etymology getEtymology() {
         return etymology;
     }
@@ -56,4 +48,11 @@ public class Sound {
         this.etymology = etymology;
     }
 
+    public String getWord() {
+        return word;
+    }
+
+    public void setWord(String word) {
+        this.word = word;
+    }
 }

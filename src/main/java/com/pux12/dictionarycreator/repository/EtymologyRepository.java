@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.pux12.dictionarycreator.model.Etymology;
+import com.pux12.dictionarycreator.model.entity.Etymology;
 
 @Repository
 public interface EtymologyRepository extends JpaRepository<Etymology, Long> {
@@ -64,7 +64,7 @@ public interface EtymologyRepository extends JpaRepository<Etymology, Long> {
   @Query(value = """
       select t2.word from "translation" t1
       join "translation" t2 on t2.etymology_id = t1.etymology_id and t1.sense = t2.sense
-      where t2.code = :targetLangCode and t1.code = :sourceLangCode and t1.word = :word
+      where t2.lang_code = :targetLangCode and t1.lang_code = :sourceLangCode and t1.word = :word
         """, nativeQuery = true)
   List<String> findTranslation(@Param("sourceLangCode") String sourceLangCode,
       @Param("targetLangCode") String targetLangCode, @Param("word") String word);

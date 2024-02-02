@@ -12,12 +12,12 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pux12.dictionarycreator.datainsert.WiktextractDownloader;
-import com.pux12.dictionarycreator.model.Etymology;
-import com.pux12.dictionarycreator.model.Form;
-import com.pux12.dictionarycreator.model.Sense;
-import com.pux12.dictionarycreator.model.Sound;
-import com.pux12.dictionarycreator.model.Synonym;
-import com.pux12.dictionarycreator.model.Translation;
+import com.pux12.dictionarycreator.model.entity.Etymology;
+import com.pux12.dictionarycreator.model.entity.Form;
+import com.pux12.dictionarycreator.model.entity.Sense;
+import com.pux12.dictionarycreator.model.entity.Sound;
+import com.pux12.dictionarycreator.model.entity.Synonym;
+import com.pux12.dictionarycreator.model.entity.Translation;
 import com.pux12.dictionarycreator.repository.EtymologyRepository;
 
 import jakarta.annotation.PostConstruct;
@@ -106,9 +106,9 @@ public class InsertService {
                 String line = null;
                 while ((line = dumpReader.readLine()) != null) {
 
-                    if (i > 20000) {
+                    /* if (i > 20000) {
                         break;
-                    }
+                    } */
                     var json = mapper.readTree(line);
 
                     String word = null;
@@ -272,6 +272,9 @@ public class InsertService {
 
     @PostConstruct
     public void insertData() {
+
+        createIndexes(); //TODO: REMOVE!
+
         System.out.println("Inserting data");
         var res = jdbcTemplate.query(
                 "select true from etymology limit 1;", (resultSet, rowNum) -> resultSet.getBoolean(1));

@@ -1,4 +1,4 @@
-package com.pux12.dictionarycreator.model;
+package com.pux12.dictionarycreator.model.entity;
 
 import java.util.List;
 
