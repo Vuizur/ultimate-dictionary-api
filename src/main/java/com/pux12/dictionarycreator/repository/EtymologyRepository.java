@@ -48,7 +48,7 @@ public interface EtymologyRepository extends JpaRepository<Etymology, Long> {
         'translations', (
           SELECT json_agg(json_strip_nulls(json_build_object(
             'id', t.id,
-            'code', t.code,
+            'code', t.lang_code,
             'lang', t.lang,
             'sense', t.sense,
             'word', t.word
@@ -62,9 +62,9 @@ public interface EtymologyRepository extends JpaRepository<Etymology, Long> {
   String findByWrd(@Param("word") String word);
 
   @Query(value = """
-      select t2.word from "translation" t1
+      select distinct t2.word from "translation" t1
       join "translation" t2 on t2.etymology_id = t1.etymology_id and t1.sense = t2.sense
-      where t2.lang_code = :targetLangCode and t1.lang_code = :sourceLangCode and t1.word = :word
+      where t2.lang_code = :targetLangCode and t1.lang_code = :sourceLangCode and t1.word = :word and t2.word is not null
         """, nativeQuery = true)
   List<String> findTranslation(@Param("sourceLangCode") String sourceLangCode,
       @Param("targetLangCode") String targetLangCode, @Param("word") String word);
