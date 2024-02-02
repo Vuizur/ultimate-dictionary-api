@@ -37,11 +37,6 @@ public class DictionaryController {
         return etymologyRepository.findBySourceWiktionaryCode(source_wiktionary_code, PageRequest.of(page, size));
     }
 
-    @RequestMapping("random/{word}")
-    public Etymology findRandom(@PathVariable String word) {
-        return etymologyRepository.testRandom(word);
-    }
-
     @RequestMapping("translation/{sourceLangCode}/{targetLangCode}/{word}")
     public List<String> findTranslation(@PathVariable String sourceLangCode, @PathVariable String targetLangCode,
             @PathVariable String word) {

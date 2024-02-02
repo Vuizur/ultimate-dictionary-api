@@ -69,10 +69,6 @@ public interface EtymologyRepository extends JpaRepository<Etymology, Long> {
   List<String> findTranslation(@Param("sourceLangCode") String sourceLangCode,
       @Param("targetLangCode") String targetLangCode, @Param("word") String word);
 
-  @Query(value = """
-        SELECT * from etymology e where e.word = :word limit 1;
-      """, nativeQuery = true)
-  Etymology testRandom(@Param("word") String word);
 
   // find by source wiktionary code, paginated
   Page<Etymology> findBySourceWiktionaryCode(String source_wiktionary_code, Pageable pageable);
