@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.pux12.dictionarycreator.model.dto.WordDTO;
 import com.pux12.dictionarycreator.model.entity.Etymology;
 import com.pux12.dictionarycreator.repository.EtymologyRepository;
@@ -20,6 +22,8 @@ import org.springframework.http.ResponseEntity;
 public class DictionaryController {
     @Autowired
     private EtymologyRepository etymologyRepository;
+
+    ObjectMapper mapper = new ObjectMapper();
 
     @GetMapping("/")
     public String index() {
@@ -39,9 +43,33 @@ public class DictionaryController {
     }
 
     @RequestMapping("translation/{sourceLangCode}/{targetLangCode}/{word}")
-    public List<String> findTranslation(@PathVariable String sourceLangCode, @PathVariable String targetLangCode,
+    public String findTranslation(@PathVariable String sourceLangCode, @PathVariable String targetLangCode,
             @PathVariable String word) {
-        return etymologyRepository.findContextLessTranslation(sourceLangCode, targetLangCode, word);
+
+        try {
+            ObjectNode result = mapper.createObjectNode();
+            String properWiktionaryEntries = etymologyRepository.findProperWiktionaryEntries(sourceLangCode,
+            targetLangCode, word);
+            var translationWithIPA = etymologyRepository.findTranslationWithPosAndIPA(sourceLangCode, targetLangCode, word);
+            System.out.println(translationWithIPA);
+            String contextLessTranslation = etymologyRepository.findContextLessTranslation(sourceLangCode,
+                    targetLangCode, word);
+
+            if (properWiktionaryEntries != null) {
+                result.set("entries", mapper.readTree(properWiktionaryEntries));
+            }
+            if (translationWithIPA != null) {
+                result.set("posTranslations", mapper.readTree(translationWithIPA));
+            }
+            if (contextLessTranslation != null) {
+                result.set("translations", mapper.readTree(contextLessTranslation));
+            }
+
+            return result.toString();
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+
     }
 
     @RequestMapping("propertranslation/{sourceLangCode}/{targetLangCode}/{word}")
