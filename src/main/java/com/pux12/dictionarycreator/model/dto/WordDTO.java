@@ -2,14 +2,14 @@ package com.pux12.dictionarycreator.model.dto;
 
 import java.util.List;
 
-public class Word {
+public class WordDTO {
     private String word;
-    private String ipa;
+    private List<String> ipa;
     private String pos;
     private String etymology;
-    private List<Sense> senses;
+    private List<SenseDTO> senses;
 
-    public Word(String word, String ipa, String pos, String etymology, List<Sense> senses) {
+    public WordDTO(String word, List<String> ipa, String pos, String etymology, List<SenseDTO> senses) {
         this.word = word;
         this.ipa = ipa;
         this.pos = pos;
@@ -23,14 +23,6 @@ public class Word {
 
     public void setWord(String word) {
         this.word = word;
-    }
-
-    public String getIpa() {
-        return ipa;
-    }
-
-    public void setIpa(String ipa) {
-        this.ipa = ipa;
     }
 
     public String getPos() {
@@ -49,11 +41,19 @@ public class Word {
         this.etymology = etymology;
     }
 
-    public List<Sense> getSenses() {
+    public List<SenseDTO> getSenses() {
         return senses;
     }
 
-    public void setSenses(List<Sense> senses) {
+    public void setSenses(List<SenseDTO> senses) {
         this.senses = senses;
+    }
+
+    public List<String> getIpa() {
+        return ipa;
+    }
+
+    public void setIpa(List<String> ipa) {
+        this.ipa = ipa;
     }
 }

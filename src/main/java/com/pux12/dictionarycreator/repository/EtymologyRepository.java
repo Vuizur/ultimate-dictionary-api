@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.pux12.dictionarycreator.model.dto.TranslationWithPosAndIPADTO;
 import com.pux12.dictionarycreator.model.entity.Etymology;
 
 @Repository
@@ -70,7 +71,7 @@ public interface EtymologyRepository extends JpaRepository<Etymology, Long> {
       @Param("targetLangCode") String targetLangCode, @Param("word") String word);
 
   @Query(value = """
-      select e.word, e.pos, array_agg(distinct t.word), array_agg(distinct s.ipa) from etymology e
+      select e.word, e.pos, array_agg(distinct s.ipa), array_agg(distinct t.word) from etymology e
       join "translation" t on e.id = t.etymology_id
       left join sound s on s.etymology_id = e.id
       where e.word = :word
@@ -78,7 +79,32 @@ public interface EtymologyRepository extends JpaRepository<Etymology, Long> {
       and t.lang_code = :targetLangCode
       group by e.id
       """, nativeQuery = true)
-  List<Object[]> findTranslationWithPosAndIPA(@Param("sourceLangCode") String sourceLangCode,
+  List<TranslationWithPosAndIPADTO> findTranslationWithPosAndIPA(@Param("sourceLangCode") String sourceLangCode,
+      @Param("targetLangCode") String targetLangCode, @Param("word") String word);
+
+  @Query(value = """
+      select json_agg(json_strip_nulls(json_build_object(
+        'word', e.word,
+        'ipas', (select json_agg(
+          so.ipa)
+          from sound so
+          where so.etymology_id = e.id),
+        'etymology', e.etymology,
+        'pos', e.pos,
+        'senses', (
+                SELECT json_agg(json_strip_nulls(json_build_object(
+                  'examples', se.examples,
+                  'glosses', sg.glosses
+                )))
+                FROM sense s
+                LEFT JOIN sense_examples se ON s.id = se.sense_id
+                LEFT JOIN sense_glosses sg ON s.id = sg.sense_id
+                WHERE s.etymology_id = e.id
+           )
+      )))
+      from etymology e where e.word = :word and e.source_wiktionary_code = :targetLangCode and e.lang_code = :sourceLangCode
+        """, nativeQuery = true)
+  String findProperWiktionaryEntries(@Param("sourceLangCode") String sourceLangCode,
       @Param("targetLangCode") String targetLangCode, @Param("word") String word);
 
   // find by source wiktionary code, paginated

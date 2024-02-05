@@ -2,11 +2,11 @@ package com.pux12.dictionarycreator.model.dto;
 
 import java.util.List;
 
-public class Sense {
+public class SenseDTO {
     private List<String> glosses;
     private List<String> examples;
 
-    public Sense(List<String> glosses, List<String> examples) {
+    public SenseDTO(List<String> glosses, List<String> examples) {
         this.glosses = glosses;
         this.examples = examples;
     }

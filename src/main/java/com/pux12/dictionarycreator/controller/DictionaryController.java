@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pux12.dictionarycreator.model.dto.WordDTO;
 import com.pux12.dictionarycreator.model.entity.Etymology;
 import com.pux12.dictionarycreator.repository.EtymologyRepository;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,5 +42,11 @@ public class DictionaryController {
     public List<String> findTranslation(@PathVariable String sourceLangCode, @PathVariable String targetLangCode,
             @PathVariable String word) {
         return etymologyRepository.findContextLessTranslation(sourceLangCode, targetLangCode, word);
+    }
+
+    @RequestMapping("propertranslation/{sourceLangCode}/{targetLangCode}/{word}")
+    public String findProperTranslation(@PathVariable String sourceLangCode, @PathVariable String targetLangCode,
+            @PathVariable String word) {
+        return etymologyRepository.findProperWiktionaryEntries(sourceLangCode, targetLangCode, word);
     }
 }
