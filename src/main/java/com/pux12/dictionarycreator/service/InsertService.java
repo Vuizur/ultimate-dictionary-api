@@ -279,7 +279,7 @@ public class InsertService {
     @PostConstruct
     public void insertData() {
 
-        createIndexes(); // TODO: REMOVE!
+        //createIndexes(); // TODO: REMOVE!
 
         System.out.println("Inserting data");
         var res = jdbcTemplate.query(
