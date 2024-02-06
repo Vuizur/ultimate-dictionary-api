@@ -75,8 +75,11 @@ public class InsertService {
             List<Etymology> etymologies = new ArrayList<Etymology>();
             // For each dump, print the first 10 lines
             for (var dumpPath : downloader.getWiktionaryDumpPaths()) {
-
                 var dumpFile = new File(dumpPath);
+                if (!dumpFile.exists()) {
+                    System.out.println("Warning: File does not exist - " + dumpFile.getAbsolutePath());
+                    continue;
+                }
                 // if dumpfile doesn't contain "ru" then continue
                 // if (!dumpFile.getName().contains("ru")) {
                 // continue;
