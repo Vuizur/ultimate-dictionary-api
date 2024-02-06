@@ -51,7 +51,6 @@ public class DictionaryController {
             String properWiktionaryEntries = etymologyRepository.findProperWiktionaryEntries(sourceLangCode,
             targetLangCode, word);
             var translationWithIPA = etymologyRepository.findTranslationWithPosAndIPA(sourceLangCode, targetLangCode, word);
-            System.out.println(translationWithIPA);
             String contextLessTranslation = etymologyRepository.findContextLessTranslation(sourceLangCode,
                     targetLangCode, word);
 
@@ -64,7 +63,6 @@ public class DictionaryController {
             if (contextLessTranslation != null) {
                 result.set("translations", mapper.readTree(contextLessTranslation));
             }
-
             return result.toString();
         } catch (Exception e) {
             return e.getMessage();
