@@ -23,6 +23,7 @@ public class Translation {
     private Etymology etymology;
 
     // Index
+    @Column(columnDefinition = "text")
     private String word;
 
     // Index
