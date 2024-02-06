@@ -33,6 +33,8 @@ public class InsertService {
 
     private static final boolean DELETE_FILES_AFTER_INSERT = true;
 
+    private static final boolean IGNORE_FORMS = true;
+
     private static final int BATCH_SIZE = 10000;
 
     public void createIndexes() {
@@ -162,7 +164,7 @@ public class InsertService {
                             senses.add(sense);
                         }
                     }
-                    if (json.has("forms")) {
+                    if (!IGNORE_FORMS && json.has("forms")) {
                         // Iterate over the forms
                         for (var formJson : json.get("forms")) {
                             var tags = new ArrayList<String>();
