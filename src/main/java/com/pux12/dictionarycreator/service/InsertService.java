@@ -31,6 +31,8 @@ public class InsertService {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    private static final boolean DELETE_FILES_AFTER_INSERT = true;
+
     private static final int BATCH_SIZE = 10000;
 
     public void createIndexes() {
@@ -253,6 +255,9 @@ public class InsertService {
                 etymologyRepository.saveAll(etymologies);
 
                 dumpReader.close();
+                if (DELETE_FILES_AFTER_INSERT) {
+                    dumpFile.delete();
+                }
             }
 
         } catch (Exception e) {
