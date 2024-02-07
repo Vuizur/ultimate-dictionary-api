@@ -36,7 +36,7 @@ public class InsertService {
     // Logger
     private static final Logger logger = LoggerFactory.getLogger(InsertService.class);
 
-    private static final boolean DELETE_FILES_AFTER_INSERT = true;
+    private static final boolean DELETE_FILES_AFTER_INSERT = false;
 
     private static final boolean IGNORE_FORMS = true;
 
@@ -314,6 +314,7 @@ public class InsertService {
                         etymologyRepository.saveAll(etymologies);
                         etymologies.clear();
                     }
+                    i++;
                 }
                 etymologyRepository.saveAll(etymologies);
                 etymologies.clear();
