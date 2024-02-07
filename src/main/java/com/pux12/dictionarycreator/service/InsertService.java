@@ -36,7 +36,7 @@ public class InsertService {
     // Logger
     private static final Logger logger = LoggerFactory.getLogger(InsertService.class);
 
-    private static final boolean DELETE_FILES_AFTER_INSERT = false;
+    private static final boolean DELETE_FILES_AFTER_INSERT = true;
 
     private static final boolean IGNORE_FORMS = true;
 
@@ -78,17 +78,12 @@ public class InsertService {
 
         try {
             List<Etymology> etymologies = new ArrayList<Etymology>();
-            // For each dump, print the first 10 lines
             for (var dumpPath : downloader.getWiktionaryDumpPaths()) {
                 var dumpFile = new File(dumpPath);
                 if (!dumpFile.exists()) {
                     logger.warn("Warning: File does not exist - " + dumpFile.getAbsolutePath());
                     continue;
                 }
-                // if dumpfile doesn't contain "ru" then continue
-                // if (!dumpFile.getName().contains("ru")) {
-                // continue;
-                // }
                 var dumpReader = new BufferedReader(new FileReader(dumpFile));
 
                 String sourceWiktionaryCode = null;
@@ -115,9 +110,9 @@ public class InsertService {
                 int i = 0;
                 while ((line = dumpReader.readLine()) != null) {
 
-                    if (i > 2000) {
+                /*     if (i > 2000) {
                         break;
-                    }
+                    } */
 
                     var json = mapper.readTree(line);
 
@@ -132,7 +127,6 @@ public class InsertService {
                     var sounds = new ArrayList<Sound>();
                     var etymology = new Etymology();
 
-                    // Get the word if it exists
                     if (json.has("word")) {
                         word = json.get("word").asText();
                     } else {
@@ -326,17 +320,14 @@ public class InsertService {
             }
 
         } catch (Exception e) {
-            // log
             logger.error("Error during insertion: ", e);
         }
 
         long endTime = System.currentTimeMillis();
-        // Print with HH:MM:SS.MS format
         logger.info("Inserting data took " + String.format("%02d:%02d:%02d.%04d",
                 (endTime - startTime) / 3600000, ((endTime - startTime) / 60000) % 60,
                 ((endTime - startTime) / 1000) % 60, (endTime - startTime) % 1000));
 
-        // Print insertions by seconds
         logger.info("Inserting data: " + totalInserts / ((endTime - startTime) / 1000.0) + " inserts/s");
     }
 
