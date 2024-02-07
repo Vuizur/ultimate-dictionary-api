@@ -236,6 +236,8 @@ public class InsertService {
                             String wordString = null;
                             if (translationJson.has("word")) {
                                 wordString = translationJson.get("word").asText();
+                            } else {
+                                continue; // For some reason the German Wiktionary has many translations without a word
                             }
                             String langString = null;
                             if (translationJson.has("lang")) {
@@ -345,7 +347,6 @@ public class InsertService {
             long startTime = System.currentTimeMillis();
             createIndexes();
             long endTime = System.currentTimeMillis();
-            // Print with HH:MM:SS.MS format
             logger.info("Creating indexes took " + String.format("%02d:%02d:%02d.%04d",
                     (endTime - startTime) / 3600000, ((endTime - startTime) / 60000) % 60,
                     ((endTime - startTime) / 1000) % 60, (endTime - startTime) % 1000));
