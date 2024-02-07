@@ -1,8 +1,11 @@
 package com.pux12.dictionarycreator.model.entity;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -22,24 +25,30 @@ public class Translation {
     @JsonIgnore
     private Etymology etymology;
 
-    // Index
     @Column(columnDefinition = "text")
     private String word;
 
-    // Index
     private String lang_code;
 
     private String lang;
 
-    // Index
     @Column(columnDefinition = "text")
     private String sense;
 
-    public Translation(String word, String lang_code, String lang, String sense) {
+    @ElementCollection
+    private List<String> tags;
+
+    @ElementCollection
+    private List<String> senseIds;
+
+    public Translation(String word, String lang_code, String lang, String sense, List<String> tags,
+            List<String> senseIds) {
         this.word = word;
         this.lang_code = lang_code;
         this.lang = lang;
         this.sense = sense;
+        this.tags = tags;
+        this.senseIds = senseIds;
     }
 
     public Translation() {
@@ -91,5 +100,21 @@ public class Translation {
 
     public void setLang_code(String lang_code) {
         this.lang_code = lang_code;
+    }
+
+    public List<String> getSenseIds() {
+        return senseIds;
+    }
+
+    public void setSenseIds(List<String> senseIds) {
+        this.senseIds = senseIds;
+    }
+
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
     }
 }
