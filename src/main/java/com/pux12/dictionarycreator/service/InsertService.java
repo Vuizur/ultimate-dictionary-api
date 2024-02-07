@@ -167,7 +167,7 @@ public class InsertService {
                             senses.add(sense);
                         }
                     }
-                    if (!IGNORE_FORMS && json.has("forms")) {
+                    if (json.has("forms")) {
                         // Iterate over the forms
                         for (var formJson : json.get("forms")) {
                             var tags = new ArrayList<String>();
@@ -180,9 +180,14 @@ public class InsertService {
                             if (formJson.has("form")) {
                                 formString = formJson.get("form").asText();
                             }
-                            var form = new Form(formString, tags);
-                            form.setEtymology(etymology);
-                            forms.add(form);
+                            // If ignore_forms, only add form if tags contains "canonical" (which is important)
+                            if (IGNORE_FORMS && !tags.contains("canonical")) {
+                                continue;
+                            } else {
+                                var form = new Form(formString, tags);
+                                form.setEtymology(etymology);
+                                forms.add(form);
+                            }
                         }
                     }
                     if (json.has("translations")) {
@@ -207,7 +212,20 @@ public class InsertService {
                             } else if (translationJson.has("lang_code")) {
                                 codeString = translationJson.get("lang_code").asText();
                             }
-                            var translation = new Translation(wordString, codeString, langString, senseString);
+                            List<String> tags = new ArrayList<String>();
+                            if (translationJson.has("tags")) {
+                                for (var tag : translationJson.get("tags")) {
+                                    tags.add(tag.asText());
+                                }
+                            }
+                            List<String> senseIds = new ArrayList<String>();
+                            if (translationJson.has("senseids")) {
+                                for (var senseId : translationJson.get("senseids")) {
+                                    senseIds.add(senseId.asText());
+                                }
+                            }
+                            var translation = new Translation(wordString, codeString, langString, senseString, tags,
+                                    senseIds);
                             translation.setEtymology(etymology);
                             translations.add(translation);
                         }
@@ -282,7 +300,7 @@ public class InsertService {
     @PostConstruct
     public void insertData() {
 
-        //createIndexes(); // TODO: REMOVE!
+        // createIndexes(); // TODO: REMOVE!
 
         System.out.println("Inserting data");
         var res = jdbcTemplate.query(
