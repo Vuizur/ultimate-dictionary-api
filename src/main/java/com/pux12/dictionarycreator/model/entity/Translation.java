@@ -36,6 +36,7 @@ public class Translation {
     private String sense;
 
     @ElementCollection
+    @Column(columnDefinition = "text") // Otherwise crashes
     private List<String> tags;
 
     @ElementCollection
