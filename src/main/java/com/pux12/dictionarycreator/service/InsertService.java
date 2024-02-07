@@ -112,13 +112,13 @@ public class InsertService {
                 logger.info("#########");
                 logger.info(dumpFile.getName());
                 String line = null;
+                int i = 0;
                 while ((line = dumpReader.readLine()) != null) {
 
-                    /*
-                     * if (i > 20000) {
-                     * break;
-                     * }
-                     */
+                    if (i > 2000) {
+                        break;
+                    }
+
                     var json = mapper.readTree(line);
 
                     String word = null;
@@ -166,6 +166,43 @@ public class InsertService {
                                     }
                                 }
                             }
+                            // This code path is only used for the German Wiktionary right now
+                            if (senseJson.has("translations")) {
+                                for (var translationJson : senseJson.get("translations")) {
+                                    String senseString = null;
+                                    if (translationJson.has("sense")) {
+                                        senseString = translationJson.get("sense").asText();
+                                    }
+                                    String wordString = null;
+                                    if (translationJson.has("word")) {
+                                        wordString = translationJson.get("word").asText();
+                                    }
+                                    String langString = null;
+                                    if (translationJson.has("lang")) {
+                                        langString = translationJson.get("lang").asText();
+                                    }
+                                    String codeString = null;
+                                    if (translationJson.has("lang_code")) {
+                                        codeString = translationJson.get("lang_code").asText();
+                                    }
+                                    List<String> tags = new ArrayList<String>();
+                                    if (translationJson.has("tags")) {
+                                        for (var tag : translationJson.get("tags")) {
+                                            tags.add(tag.asText());
+                                        }
+                                    }
+                                    // This is different from the Spanish Wiktionary
+                                    List<String> senseIds = new ArrayList<String>();
+                                    if (senseJson.has("senseid")) {
+                                        senseIds.add(senseJson.get("senseid").asText());
+                                    }
+                                    var translation = new Translation(wordString, codeString, langString, senseString,
+                                            tags,
+                                            senseIds);
+                                    translation.setEtymology(etymology);
+                                    translations.add(translation);
+                                }
+                            }
                             var sense = new Sense(glosses, examples);
                             sense.setEtymology(etymology);
                             senses.add(sense);
@@ -199,7 +236,6 @@ public class InsertService {
                         // Iterate over the translations
                         for (var translationJson : json.get("translations")) {
                             String senseString = null;
-                            // TODO: integrate senseID
                             if (translationJson.has("sense")) {
                                 senseString = translationJson.get("sense").asText();
                             }
