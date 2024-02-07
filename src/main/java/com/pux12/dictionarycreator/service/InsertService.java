@@ -276,6 +276,7 @@ public class InsertService {
                     }
                 }
                 etymologyRepository.saveAll(etymologies);
+                etymologies.clear(); 
 
                 dumpReader.close();
                 if (DELETE_FILES_AFTER_INSERT) {
