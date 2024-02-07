@@ -6,6 +6,8 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -30,6 +32,9 @@ public class InsertService {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    // Logger
+    private static final Logger logger = LoggerFactory.getLogger(InsertService.class);
 
     private static final boolean DELETE_FILES_AFTER_INSERT = true;
 
@@ -77,7 +82,7 @@ public class InsertService {
             for (var dumpPath : downloader.getWiktionaryDumpPaths()) {
                 var dumpFile = new File(dumpPath);
                 if (!dumpFile.exists()) {
-                    System.out.println("Warning: File does not exist - " + dumpFile.getAbsolutePath());
+                    logger.warn("Warning: File does not exist - " + dumpFile.getAbsolutePath());
                     continue;
                 }
                 // if dumpfile doesn't contain "ru" then continue
@@ -100,12 +105,12 @@ public class InsertService {
                 } else if (dumpFile.getName().contains("raw-wiktextract-data")) {
                     sourceWiktionaryCode = "en";
                 } else {
-                    System.out.println("Error: no source wiktionary code found for " + dumpFile.getName());
+                    logger.error("Error: no source wiktionary code found for " + dumpFile.getName());
                     System.exit(1);
                 }
 
-                System.out.println("#########");
-                System.out.println(dumpFile.getName());
+                logger.info("#########");
+                logger.info(dumpFile.getName());
                 String line = null;
                 while ((line = dumpReader.readLine()) != null) {
 
@@ -179,7 +184,8 @@ public class InsertService {
                             if (formJson.has("form")) {
                                 formString = formJson.get("form").asText();
                             }
-                            // If ignore_forms, only add form if tags contains "canonical" (which is important)
+                            // If ignore_forms, only add form if tags contains "canonical" (which is
+                            // important)
                             if (IGNORE_FORMS && !tags.contains("canonical")) {
                                 continue;
                             } else {
@@ -268,13 +274,13 @@ public class InsertService {
                     etymologies.add(etymology);
                     totalInserts++;
                     if (totalInserts % BATCH_SIZE == 0) {
-                        System.out.println("Inserting batch " + totalInserts / BATCH_SIZE);
+                        logger.info("Inserting batch " + totalInserts / BATCH_SIZE);
                         etymologyRepository.saveAll(etymologies);
                         etymologies.clear();
                     }
                 }
                 etymologyRepository.saveAll(etymologies);
-                etymologies.clear(); 
+                etymologies.clear();
 
                 dumpReader.close();
                 if (DELETE_FILES_AFTER_INSERT) {
@@ -283,38 +289,36 @@ public class InsertService {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            // log
+            logger.error("Error during insertion: ", e);
         }
 
         long endTime = System.currentTimeMillis();
         // Print with HH:MM:SS.MS format
-        System.out.println("Inserting data took " + String.format("%02d:%02d:%02d.%04d",
+        logger.info("Inserting data took " + String.format("%02d:%02d:%02d.%04d",
                 (endTime - startTime) / 3600000, ((endTime - startTime) / 60000) % 60,
                 ((endTime - startTime) / 1000) % 60, (endTime - startTime) % 1000));
 
         // Print insertions by seconds
-        System.out.println("Inserting data: " + totalInserts / ((endTime - startTime) / 1000.0) + " inserts/s");
+        logger.info("Inserting data: " + totalInserts / ((endTime - startTime) / 1000.0) + " inserts/s");
     }
 
     @PostConstruct
     public void insertData() {
 
-        // createIndexes(); // TODO: REMOVE!
-
-        System.out.println("Inserting data");
         var res = jdbcTemplate.query(
                 "select true from etymology limit 1;", (resultSet, rowNum) -> resultSet.getBoolean(1));
         if (!res.isEmpty()) {
-            System.out.println("Data already inserted");
+            logger.info("Data already inserted");
         } else {
-            System.out.println("Inserting data");
+            logger.info("Inserting data");
             insertDataFromWiktionary();
-            System.out.println("Creating indexes");
+            logger.info("Creating indexes");
             long startTime = System.currentTimeMillis();
             createIndexes();
             long endTime = System.currentTimeMillis();
             // Print with HH:MM:SS.MS format
-            System.out.println("Creating indexes took " + String.format("%02d:%02d:%02d.%04d",
+            logger.info("Creating indexes took " + String.format("%02d:%02d:%02d.%04d",
                     (endTime - startTime) / 3600000, ((endTime - startTime) / 60000) % 60,
                     ((endTime - startTime) / 1000) % 60, (endTime - startTime) % 1000));
         }
