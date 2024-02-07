@@ -24,6 +24,8 @@ public class Etymology {
     @Column(columnDefinition = "text")
     private String pos;
 
+    private String lang;
+
     private String langCode;
 
     @OneToMany(mappedBy = "etymology", cascade = CascadeType.ALL)
@@ -142,6 +144,14 @@ public class Etymology {
 
     public void setSynonyms(List<Synonym> synonyms) {
         this.synonyms = synonyms;
+    }
+
+    public String getLang() {
+        return lang;
+    }
+
+    public void setLang(String lang) {
+        this.lang = lang;
     }
 
 }

@@ -120,6 +120,7 @@ public class InsertService {
                     String pos = null;
                     String langCode = null;
                     String etym = null;
+                    String lang = null;
                     var senses = new ArrayList<Sense>();
                     var forms = new ArrayList<Form>();
                     var translations = new ArrayList<Translation>();
@@ -138,6 +139,9 @@ public class InsertService {
                     }
                     if (json.has("etymology_text")) {
                         etym = json.get("etymology_text").asText();
+                    }
+                    if (json.has("lang")) {
+                        lang = json.get("lang").asText();
                     }
                     if (json.has("lang_code")) {
                         langCode = json.get("lang_code").asText();
@@ -267,6 +271,7 @@ public class InsertService {
                             translations.add(translation);
                         }
                     }
+
                     if (json.has("synonyms")) {
                         for (var synonymJson : json.get("synonyms")) {
                             String wordString = null;
@@ -294,6 +299,7 @@ public class InsertService {
                     }
                     etymology.setWord(word);
                     etymology.setPos(pos);
+                    etymology.setLang(lang);
                     etymology.setLangCode(langCode);
                     etymology.setEtymology(etym);
                     etymology.setSourceWiktionaryCode(sourceWiktionaryCode);
