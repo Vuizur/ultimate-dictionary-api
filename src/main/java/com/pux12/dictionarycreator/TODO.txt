@@ -1,4 +1,3 @@
-* translation tags (especially for male/female)
 * Endpoint that allows creation of a dictionary
 * Endpoint that allows to enter base lang + target lang and display results
 * Create a Translation response class
@@ -9,3 +8,4 @@
 * Normalization of Russian entries (remove accent)
 * Create DTO for translation endpoint
 * Don't add translations to response if source and target lang are the same
+* Add translations from German Wiktionary
