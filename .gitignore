@@ -35,3 +35,4 @@ build/
 ### Custom ###
 error.txt
 schema.sql
+src/main/resources/custom.properties
