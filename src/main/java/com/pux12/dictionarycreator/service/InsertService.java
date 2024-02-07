@@ -106,7 +106,6 @@ public class InsertService {
 
                 System.out.println("#########");
                 System.out.println(dumpFile.getName());
-                int i = 0;
                 String line = null;
                 while ((line = dumpReader.readLine()) != null) {
 
@@ -268,7 +267,6 @@ public class InsertService {
 
                     etymologies.add(etymology);
                     totalInserts++;
-                    i++;
                     if (totalInserts % BATCH_SIZE == 0) {
                         System.out.println("Inserting batch " + totalInserts / BATCH_SIZE);
                         etymologyRepository.saveAll(etymologies);

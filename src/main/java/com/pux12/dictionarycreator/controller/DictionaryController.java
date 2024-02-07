@@ -1,7 +1,5 @@
 package com.pux12.dictionarycreator.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -9,7 +7,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.pux12.dictionarycreator.model.dto.WordDTO;
 import com.pux12.dictionarycreator.model.entity.Etymology;
 import com.pux12.dictionarycreator.repository.EtymologyRepository;
 import org.springframework.web.bind.annotation.RequestMapping;
