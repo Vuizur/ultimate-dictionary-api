@@ -8,3 +8,4 @@
     - entries that have a form that fits
 * Normalization of Russian entries (remove accent)
 * Create DTO for translation endpoint
+* Don't add translations to response if source and target lang are the same
