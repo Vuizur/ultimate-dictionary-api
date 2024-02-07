@@ -9,3 +9,4 @@
 * Create DTO for translation endpoint
 * Don't add translations to response if source and target lang are the same
 * Add translations from German Wiktionary
+* Search for cyrillic translations from latin languages in Russian wiktionary
