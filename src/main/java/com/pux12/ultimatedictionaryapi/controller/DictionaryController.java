@@ -1,4 +1,4 @@
-package com.pux12.dictionarycreator.controller;
+package com.pux12.ultimatedictionaryapi.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.pux12.dictionarycreator.model.entity.Etymology;
-import com.pux12.dictionarycreator.repository.EtymologyRepository;
+import com.pux12.ultimatedictionaryapi.model.entity.Etymology;
+import com.pux12.ultimatedictionaryapi.repository.EtymologyRepository;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.data.domain.Page;

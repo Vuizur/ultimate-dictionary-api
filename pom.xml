@@ -10,10 +10,10 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.pux12</groupId>
-	<artifactId>dictionarycreator</artifactId>
+	<artifactId>ultimate-dictionary-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>dictionarycreator</name>
-	<description>Demo project for Spring Boot</description>
+	<name>Ultimate dictionary API</name>
+	<description>Dictionary API based on Wiktextract data</description>
 	<properties>
 		<java.version>21</java.version>
 	</properties>
@@ -75,7 +75,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>1.2.1</version>
                 <configuration>
-                    <mainClass>com.pux12.dictionarycreator.DictionarycreatorApplication</mainClass>
+                    <mainClass>com.pux12.ultimatedictionaryapi.UltimateDictionaryApplication</mainClass>
                     <arguments>
                         <argument>argument1</argument>
                     </arguments>

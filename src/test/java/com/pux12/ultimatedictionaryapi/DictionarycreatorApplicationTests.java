@@ -1,4 +1,4 @@
-package com.pux12.dictionarycreator;
+package com.pux12.ultimatedictionaryapi;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

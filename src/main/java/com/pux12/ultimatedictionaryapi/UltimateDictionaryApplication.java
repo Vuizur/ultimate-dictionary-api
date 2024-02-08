@@ -1,13 +1,13 @@
-package com.pux12.dictionarycreator;
+package com.pux12.ultimatedictionaryapi;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class DictionarycreatorApplication {
+public class UltimateDictionaryApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(DictionarycreatorApplication.class, args);
+		SpringApplication.run(UltimateDictionaryApplication.class, args);
 	}
 
 }

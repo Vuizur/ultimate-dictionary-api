@@ -1,4 +1,4 @@
-package com.pux12.dictionarycreator.model.entity;
+package com.pux12.ultimatedictionaryapi.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 

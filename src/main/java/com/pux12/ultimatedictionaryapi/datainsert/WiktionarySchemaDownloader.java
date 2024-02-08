@@ -1,4 +1,4 @@
-package com.pux12.dictionarycreator.datainsert;
+package com.pux12.ultimatedictionaryapi.datainsert;
 
 // Ignore this
 // I currently don't use it

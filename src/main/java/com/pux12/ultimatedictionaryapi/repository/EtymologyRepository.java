@@ -1,4 +1,4 @@
-package com.pux12.dictionarycreator.repository;
+package com.pux12.ultimatedictionaryapi.repository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.pux12.dictionarycreator.model.entity.Etymology;
+import com.pux12.ultimatedictionaryapi.model.entity.Etymology;
 
 @Repository
 public interface EtymologyRepository extends JpaRepository<Etymology, Long> {

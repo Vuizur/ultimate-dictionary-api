@@ -1,4 +1,4 @@
-package com.pux12.dictionarycreator.service;
+package com.pux12.ultimatedictionaryapi.service;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -13,14 +13,14 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pux12.dictionarycreator.datainsert.WiktextractDownloader;
-import com.pux12.dictionarycreator.model.entity.Etymology;
-import com.pux12.dictionarycreator.model.entity.Form;
-import com.pux12.dictionarycreator.model.entity.Sense;
-import com.pux12.dictionarycreator.model.entity.Sound;
-import com.pux12.dictionarycreator.model.entity.Synonym;
-import com.pux12.dictionarycreator.model.entity.Translation;
-import com.pux12.dictionarycreator.repository.EtymologyRepository;
+import com.pux12.ultimatedictionaryapi.datainsert.WiktextractDownloader;
+import com.pux12.ultimatedictionaryapi.model.entity.Etymology;
+import com.pux12.ultimatedictionaryapi.model.entity.Form;
+import com.pux12.ultimatedictionaryapi.model.entity.Sense;
+import com.pux12.ultimatedictionaryapi.model.entity.Sound;
+import com.pux12.ultimatedictionaryapi.model.entity.Synonym;
+import com.pux12.ultimatedictionaryapi.model.entity.Translation;
+import com.pux12.ultimatedictionaryapi.repository.EtymologyRepository;
 
 import jakarta.annotation.PostConstruct;
 

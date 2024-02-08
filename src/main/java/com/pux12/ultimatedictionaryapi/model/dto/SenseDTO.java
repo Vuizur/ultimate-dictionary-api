@@ -1,4 +1,4 @@
-package com.pux12.dictionarycreator.model.dto;
+package com.pux12.ultimatedictionaryapi.model.dto;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.pux12.dictionarycreator.datainsert;
+package com.pux12.ultimatedictionaryapi.datainsert;
 
 import java.io.BufferedInputStream;
 import java.io.File;
