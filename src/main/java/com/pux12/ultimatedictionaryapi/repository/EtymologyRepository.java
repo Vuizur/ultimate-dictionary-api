@@ -60,30 +60,43 @@ public interface EtymologyRepository extends JpaRepository<Etymology, Long> {
   String findByWrd(@Param("word") String word);
 
   @Query(value = """
-      select json_agg(distinct t2.word) from "translation" t1
-      join "translation" t2 on t2.etymology_id = t1.etymology_id and t1.sense = t2.sense
-      where t2.lang_code = :targetLangCode and t1.lang_code = :sourceLangCode and t1.word = :word and t2.word is not null
-        """, nativeQuery = true)
+      select
+        json_agg(distinct t2.word)
+      from
+        "translation" t1
+      join "translation" t2 on
+        t2.etymology_id = t1.etymology_id
+        and t1.sense is not distinct from t2.sense
+      left join translation_sense_ids tsi1 on
+        tsi1.translation_id = t1.id
+      left join translation_sense_ids tsi2 on
+        tsi2.translation_id = t2.id
+      where
+        t2.lang_code = :targetLangCode
+        and t1.lang_code = :sourceLangCode
+        and t1.word = :word
+        and tsi1.sense_ids is not distinct from tsi2.sense_ids
+            """, nativeQuery = true)
   String findContextLessTranslation(@Param("sourceLangCode") String sourceLangCode,
       @Param("targetLangCode") String targetLangCode, @Param("word") String word);
 
   @Query(value = """
-    select json_agg(json_build_object(
-      'word', word,
-      'pos', pos,
-      'ipas', ipa,
-      'translation', translation
-    )) as result from (
-      select e.word, e.pos, array_agg(distinct s.ipa) as ipa, array_agg(distinct t.word) as translation from etymology e
-      join "translation" t on e.id = t.etymology_id
-      left join sound s on s.etymology_id = e.id
-      where e.word = :word
-      and e.lang_code = :sourceLangCode
-      and t.lang_code = :targetLangCode
-      group by e.id, e.word, e.pos
-    ) as subquery
-    
-            """, nativeQuery = true)
+      select json_agg(json_build_object(
+        'word', word,
+        'pos', pos,
+        'ipas', ipa,
+        'translation', translation
+      )) as result from (
+        select e.word, e.pos, array_agg(distinct s.ipa) as ipa, array_agg(distinct t.word) as translation from etymology e
+        join "translation" t on e.id = t.etymology_id
+        left join sound s on s.etymology_id = e.id
+        where e.word = :word
+        and e.lang_code = :sourceLangCode
+        and t.lang_code = :targetLangCode
+        group by e.id, e.word, e.pos
+      ) as subquery
+
+              """, nativeQuery = true)
   String findTranslationWithPosAndIPA(@Param("sourceLangCode") String sourceLangCode,
       @Param("targetLangCode") String targetLangCode, @Param("word") String word);
 

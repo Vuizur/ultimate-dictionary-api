@@ -54,6 +54,8 @@ public class InsertService {
                 "CREATE INDEX IF NOT EXISTS translation_word_idx ON translation (word);",
                 "CREATE INDEX IF NOT EXISTS translation_etymology_id_idx ON translation (etymology_id);",
                 "CREATE INDEX IF NOT EXISTs translation_etym_sense_lang_idx ON translation USING btree (etymology_id, sense, lang_code);",
+                "CREATE INDEX IF NOT EXISTS translation_sense_ids_trans_id_idx ON translation_sense_ids (translation_id);",
+                "CREATE INDEX IF NOT EXISTS translation_sense_ids_sense_ids_idx ON translation_sense_ids (sense_ids);",
                 "CREATE INDEX IF NOT EXISTS sense_etymology_id_idx ON sense (etymology_id);",
                 "CREATE INDEX IF NOT EXISTS sense_examples_sense_id_idx ON sense_examples (sense_id);",
                 "CREATE INDEX IF NOT EXISTS sense_glosses_sense_id_idx ON sense_glosses (sense_id);",
@@ -174,6 +176,8 @@ public class InsertService {
                                     String wordString = null;
                                     if (translationJson.has("word")) {
                                         wordString = translationJson.get("word").asText();
+                                    } else {
+                                        continue; // For some reason the German Wiktionary has many translations without a word
                                     }
                                     String langString = null;
                                     if (translationJson.has("lang")) {
@@ -241,7 +245,7 @@ public class InsertService {
                             if (translationJson.has("word")) {
                                 wordString = translationJson.get("word").asText();
                             } else {
-                                continue; // For some reason the German Wiktionary has many translations without a word
+                                continue;
                             }
                             String langString = null;
                             if (translationJson.has("lang")) {
