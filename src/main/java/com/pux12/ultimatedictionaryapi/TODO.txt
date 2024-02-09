@@ -6,3 +6,5 @@
 * Don't add translations to response if source and target lang are the same
 * Search for cyrillic translations from latin languages in Russian wiktionary, maybe open bug if large problem
 * Random word API: Add a random float between 0 and 1 to each word in the dictionary, and index this. Then, when a random word is requested, get a random float between 0 and 1 and return the word with the closest float.
+* glosses with form_of/or alternate_of should be added to the DB.
+* Add canonical form to response
