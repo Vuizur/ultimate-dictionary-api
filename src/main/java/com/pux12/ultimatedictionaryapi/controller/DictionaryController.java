@@ -25,7 +25,7 @@ public class DictionaryController {
 
     @GetMapping("/")
     public String index() {
-        return "Greetings from Spring Boot!";
+        return "Welcome to the Ultimate Dictionary API!";
     }
 
     @RequestMapping(value = "word/{word}", method = RequestMethod.GET)
