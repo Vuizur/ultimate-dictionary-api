@@ -72,6 +72,15 @@ For example, a request to [`/translation/es/en/estimar`](http://116.202.96.240:8
 * 7 282 354 translations
 * 6 283 different supported languages
 
+### Future work
+I don't know how much time I will have, but there are a few things that I haven't implemented.
+* Lookup for inflected forms - my VPS currently does not have enough disk space. (Maybe one could also exclude languages with too many inflections, or I need to rework my deployment.)
+* Getting random words: This is more difficult than it appears, because all standard solutions will be too slow. So we will have to use clever indexing and possibly associate each word with a random number in the DB
+* Integrating word frequency data from wordfreq
+
 ### Data source
 
 The database is populated with extracted Wiktionary data from 6 Wiktionaries, powered by [Wiktextract](https://github.com/tatuylonen/wiktextract).
+
+### Contributing
+* Feel free to report bugs, send pull requests and request new features
