@@ -43,3 +43,5 @@ src/main/java/com/pux12/ultimatedictionaryapi/test2.json
 src/main/java/com/pux12/ultimatedictionaryapi/test3.json
 wikt.log*
 ex.json
+multiple_alt_ofs.jsonl
+multiple_form_ofs.jsonl
