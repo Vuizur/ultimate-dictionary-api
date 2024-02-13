@@ -36,7 +36,7 @@ public class InsertService {
     // Logger
     private static final Logger logger = LoggerFactory.getLogger(InsertService.class);
 
-    private static final boolean DELETE_FILES_AFTER_INSERT = true;
+    private static final boolean DELETE_FILES_AFTER_INSERT = false;
 
     private static final boolean IGNORE_FORMS = true;
 
@@ -112,9 +112,9 @@ public class InsertService {
                 int i = 0;
                 while ((line = dumpReader.readLine()) != null) {
 
-           /*          if (i > 3000) {
+                    if (i > 3000) {
                         break;
-                    } */
+                    }
 
                     var json = mapper.readTree(line);
 
@@ -172,7 +172,7 @@ public class InsertService {
                                 alt_of = senseJson.get("alt_of").get(0).get("word").asText();
                             }
                             if (senseJson.has("form_of")) {
-                                alt_of = senseJson.get("form_of").get(0).get("word").asText();
+                                form_of = senseJson.get("form_of").get(0).get("word").asText();
                             }
                             // This code path is only used for the German Wiktionary right now
                             // TODO: eliminate duplication
