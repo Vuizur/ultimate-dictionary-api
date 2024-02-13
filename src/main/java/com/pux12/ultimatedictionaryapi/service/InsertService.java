@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.Random;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,7 +44,9 @@ public class InsertService {
     private boolean IGNORE_FORMS;
 
     private static final int BATCH_SIZE = 10000;
-    
+
+    private static Random rd = new Random();
+
     // Used for debugging
     private Integer MAX_INSERTS;
 
@@ -58,7 +61,7 @@ public class InsertService {
         } catch (Exception ex) {
             MAX_INSERTS = null;
         }
-        
+
     }
 
     public void createIndexes() {
@@ -341,6 +344,14 @@ public class InsertService {
                     etymology.setTranslations(translations);
                     etymology.setSynonyms(synonyms);
                     etymology.setSounds(sounds);
+
+                    for (var sense : senses) {
+                        // Don't randomly select words that are simply inflected forms of other words
+                        if (sense.getAltOf() == null && sense.getFormOf() == null) {
+                            etymology.setRandomNumber(rd.nextFloat());
+                            break;
+                        }
+                    }
 
                     etymologies.add(etymology);
                     totalInserts++;

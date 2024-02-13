@@ -48,6 +48,8 @@ public class Etymology {
 
     private String sourceWiktionaryCode;
 
+    private Float randomNumber;
+
     public Etymology() {
     }
 
@@ -152,6 +154,14 @@ public class Etymology {
 
     public void setLang(String lang) {
         this.lang = lang;
+    }
+
+    public Float getRandomNumber() {
+        return randomNumber;
+    }
+
+    public void setRandomNumber(Float randomNumber) {
+        this.randomNumber = randomNumber;
     }
 
 }
