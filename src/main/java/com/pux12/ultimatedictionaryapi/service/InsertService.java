@@ -112,7 +112,7 @@ public class InsertService {
                 int i = 0;
                 while ((line = dumpReader.readLine()) != null) {
 
-                /*     if (i > 2000) {
+           /*          if (i > 3000) {
                         break;
                     } */
 
@@ -153,6 +153,8 @@ public class InsertService {
                         for (var senseJson : json.get("senses")) {
                             var glosses = new ArrayList<String>();
                             var examples = new ArrayList<String>();
+                            String alt_of = null;
+                            String form_of = null;
                             if (senseJson.has("glosses")) {
                                 for (var glossJson : senseJson.get("glosses")) {
                                     glosses.add(glossJson.asText());
@@ -166,7 +168,14 @@ public class InsertService {
                                     }
                                 }
                             }
+                            if (senseJson.has("alt_of")) {
+                                alt_of = senseJson.get("alt_of").get(0).get("word").asText();
+                            }
+                            if (senseJson.has("form_of")) {
+                                alt_of = senseJson.get("form_of").get(0).get("word").asText();
+                            }
                             // This code path is only used for the German Wiktionary right now
+                            // TODO: eliminate duplication
                             if (senseJson.has("translations")) {
                                 for (var translationJson : senseJson.get("translations")) {
                                     String senseString = null;
@@ -177,7 +186,8 @@ public class InsertService {
                                     if (translationJson.has("word")) {
                                         wordString = translationJson.get("word").asText();
                                     } else {
-                                        continue; // For some reason the German Wiktionary has many translations without a word
+                                        continue; // For some reason the German Wiktionary has many translations without
+                                                  // a word
                                     }
                                     String langString = null;
                                     if (translationJson.has("lang")) {
@@ -205,7 +215,7 @@ public class InsertService {
                                     translations.add(translation);
                                 }
                             }
-                            var sense = new Sense(glosses, examples);
+                            var sense = new Sense(glosses, examples, form_of, alt_of);
                             sense.setEtymology(etymology);
                             senses.add(sense);
                         }

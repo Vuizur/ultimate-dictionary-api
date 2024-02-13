@@ -33,9 +33,17 @@ public class Sense {
     @Column(columnDefinition = "text")
     private List<String> examples;
 
-    public Sense(List<String> glosses, List<String> examples) {
+    // In the JSON files form_of and alt_of are actually lists, but more often than not the second entry is a translation
+    // or explanation, so more often than not a mistake
+    private String formOf;
+
+    private String altOf;
+
+    public Sense(List<String> glosses, List<String> examples, String formOf, String altOf) {
         this.glosses = glosses;
         this.examples = examples;
+        this.formOf = formOf;
+        this.altOf = altOf;
     }
 
     public Sense() {
@@ -76,6 +84,22 @@ public class Sense {
 
     public void setEtymology(Etymology etymology) {
         this.etymology = etymology;
+    }
+
+    public String getFormOf() {
+        return formOf;
+    }
+
+    public void setFormOf(String formOf) {
+        this.formOf = formOf;
+    }
+
+    public String getAltOf() {
+        return altOf;
+    }
+
+    public void setAltOf(String altOf) {
+        this.altOf = altOf;
     }
 
 }
