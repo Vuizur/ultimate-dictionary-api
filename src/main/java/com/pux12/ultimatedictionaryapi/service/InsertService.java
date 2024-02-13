@@ -43,6 +43,9 @@ public class InsertService {
     private boolean IGNORE_FORMS;
 
     private static final int BATCH_SIZE = 10000;
+    
+    // Used for debugging
+    private Integer MAX_INSERTS;
 
     public InsertService() throws Exception {
         var prop = new Properties();
@@ -50,6 +53,11 @@ public class InsertService {
         prop.load(new FileInputStream("src/main/resources/custom.properties"));
         DELETE_FILES_AFTER_INSERT = Boolean.parseBoolean(prop.getProperty("deleteFilesAfterInsert"));
         IGNORE_FORMS = Boolean.parseBoolean(prop.getProperty("ignoreForms"));
+        try {
+            MAX_INSERTS = Integer.parseInt(prop.getProperty("maxInserts"));
+        } catch (Exception ex) {
+            MAX_INSERTS = null;
+        }
         
     }
 
@@ -123,7 +131,7 @@ public class InsertService {
                 int i = 0;
                 while ((line = dumpReader.readLine()) != null) {
 
-                    if (i > 3000) {
+                    if (MAX_INSERTS != null && i > MAX_INSERTS) {
                         break;
                     }
 
