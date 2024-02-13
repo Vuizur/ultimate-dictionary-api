@@ -2,9 +2,11 @@ package com.pux12.ultimatedictionaryapi.service;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,11 +38,20 @@ public class InsertService {
     // Logger
     private static final Logger logger = LoggerFactory.getLogger(InsertService.class);
 
-    private static final boolean DELETE_FILES_AFTER_INSERT = false;
+    private boolean DELETE_FILES_AFTER_INSERT;
 
-    private static final boolean IGNORE_FORMS = true;
+    private boolean IGNORE_FORMS;
 
     private static final int BATCH_SIZE = 10000;
+
+    public InsertService() throws Exception {
+        var prop = new Properties();
+
+        prop.load(new FileInputStream("src/main/resources/custom.properties"));
+        DELETE_FILES_AFTER_INSERT = Boolean.parseBoolean(prop.getProperty("deleteFilesAfterInsert"));
+        IGNORE_FORMS = Boolean.parseBoolean(prop.getProperty("ignoreForms"));
+        
+    }
 
     public void createIndexes() {
         String[] sqlStatements = new String[] {
