@@ -104,6 +104,11 @@ public interface EtymologyRepository extends JpaRepository<Etymology, Long> {
   @Query(value = """
       select json_agg(json_strip_nulls(json_build_object(
         'word', e.word,
+        'canonical_forms', (select json_agg(distinct f.form)
+        from form f 
+        join form_tags ft on f.id = ft.form_id
+        where f.etymology_id = e.id and ft.tags = 'canonical'
+        ),
         'ipas', (select json_agg(
           so.ipa)
           from sound so
