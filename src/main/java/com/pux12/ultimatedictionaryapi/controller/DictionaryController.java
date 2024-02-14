@@ -66,7 +66,6 @@ public class DictionaryController {
         } catch (Exception e) {
             return e.getMessage();
         }
-
     }
 
     @RequestMapping(value = "propertranslation/{sourceLangCode}/{targetLangCode}/{word}", method = RequestMethod.GET)

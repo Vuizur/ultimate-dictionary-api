@@ -49,6 +49,7 @@ public class InsertService {
 
     // Used for debugging
     private Integer MAX_INSERTS;
+    private boolean GENERATE_RANDOM_NUMS;
 
     public InsertService() throws Exception {
         var prop = new Properties();
@@ -61,7 +62,7 @@ public class InsertService {
         } catch (Exception ex) {
             MAX_INSERTS = null;
         }
-
+        GENERATE_RANDOM_NUMS = Boolean.parseBoolean(prop.getProperty("generateRandomNums"));
     }
 
     public void createIndexes() {
@@ -345,11 +346,13 @@ public class InsertService {
                     etymology.setSynonyms(synonyms);
                     etymology.setSounds(sounds);
 
-                    for (var sense : senses) {
-                        // Don't randomly select words that are simply inflected forms of other words
-                        if (sense.getAltOf() == null && sense.getFormOf() == null) {
-                            etymology.setRandomNumber(rd.nextFloat());
-                            break;
+                    if (GENERATE_RANDOM_NUMS) {
+                        for (var sense : senses) {
+                            // Don't randomly select words that are simply inflected forms of other words
+                            if (sense.getAltOf() == null && sense.getFormOf() == null) {
+                                etymology.setRandomNumber(rd.nextFloat());
+                                break;
+                            }
                         }
                     }
 
