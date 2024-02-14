@@ -111,14 +111,11 @@ public interface EtymologyRepository extends JpaRepository<Etymology, Long> {
         'etymology', e.etymology,
         'pos', e.pos,
         'senses', (
-                SELECT json_agg(json_strip_nulls(json_build_object(
-                  'examples', se.examples,
-                  'glosses', sg.glosses
-                )))
-                FROM sense s
-                LEFT JOIN sense_examples se ON s.id = se.sense_id
-                LEFT JOIN sense_glosses sg ON s.id = sg.sense_id
-                WHERE s.etymology_id = e.id
+            SELECT json_agg(json_strip_nulls(json_build_object(
+              'glosses', (select json_agg(sg.glosses) from sense_glosses sg where sg.sense_id = s.id),
+              'examples', (select json_agg(se.examples) from sense_examples se where se.sense_id = s.id)
+            )))
+            FROM sense s
            )
       )))
       from etymology e where e.word = :word and e.source_wiktionary_code = :targetLangCode and e.lang_code = :sourceLangCode
