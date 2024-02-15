@@ -120,7 +120,7 @@ public interface EtymologyRepository extends JpaRepository<Etymology, Long> {
               'glosses', (select json_agg(sg.glosses) from sense_glosses sg where sg.sense_id = s.id),
               'examples', (select json_agg(se.examples) from sense_examples se where se.sense_id = s.id)
             )))
-            FROM sense s
+            FROM sense s where s.etymology_id = e.id
            )
       )))
       from etymology e where e.word = :word and e.source_wiktionary_code = :targetLangCode and e.lang_code = :sourceLangCode
