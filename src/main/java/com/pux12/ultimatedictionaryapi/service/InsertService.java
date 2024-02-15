@@ -86,7 +86,8 @@ public class InsertService {
                 "CREATE INDEX IF NOT EXISTS synonym_etymology_id_idx ON synonym (etymology_id);",
                 "CREATE INDEX IF NOT EXISTS form_etymology_id_idx ON form (etymology_id);",
                 "CREATE INDEX IF NOT EXISTS form_form_idx ON form (form);",
-                "CREATE INDEX IF NOT EXISTS form_form_tags_idx ON form_tags (form_id);"
+                "CREATE INDEX IF NOT EXISTS form_form_tags_idx ON form_tags (form_id);",
+                "CREATE INDEX IF NOT EXISTS form_form_tags_form_id_idx ON form_tags (tags, form_id);",
         };
         // Execute the batch update
         jdbcTemplate.batchUpdate(sqlStatements);
