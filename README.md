@@ -4,7 +4,7 @@ A Spring Boot app that exposes a dictionary API for definitions and translations
 
 ### API
 
-The main API is `/translation/{source_lang}/{target_lang}/{word}`. I currently have an instance running on http://116.202.96.240:8080/.
+The main API is `/translation/{source_lang}/{target_lang}/{word}`. I currently have an instance running on http://116.202.96.240:8080/ (I can't guarantee 100 percent uptime though).
 
 It returns a JSON object in the form that contains 3 keys:
 * **entries**, which contains a list of all entry taken from Wiktionary, such as IPA, part of speech, definitions, examples, ...
@@ -73,7 +73,6 @@ For example, a request to [`/translation/es/en/estimar`](http://116.202.96.240:8
 ```
 
 ### Statistics 
-
 * 18 620 000 dictionary entries with all sort of metadata
 * 7 282 354 translations
 * 6 283 different supported languages
@@ -85,8 +84,10 @@ I don't know how much time I will have, but there are a few things that I haven'
 * Integrating word frequency data from wordfreq
 
 ### Data source
-
 The database is populated with extracted Wiktionary data from 6 Wiktionaries, powered by [Wiktextract](https://github.com/tatuylonen/wiktextract).
+
+### Caveats
+Data may be incorrect. This is mainly caused by some nonstandard formatting on Wiktionary that wiktextract doesn't parse correctly. Feel free to report (and fix) possible problems over there. If the problem does not lie with wiktextract, often the translation tables in some Wiktionary editions may be wrong. You can also open an issue here (especially if it is a big problem), I might be able to find the source (no promises).
 
 ### Contributing
 * Feel free to report bugs, send pull requests and request new features
