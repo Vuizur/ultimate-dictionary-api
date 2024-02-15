@@ -26,13 +26,19 @@ For example, a request to [`/translation/es/en/estimar`](http://116.202.96.240:8
             "pos": "verb",
             "senses": [
                 {
-                    "glosses": "to esteem"
+                    "glosses": [
+                        "to esteem"
+                    ]
                 },
                 {
-                    "glosses": "to estimate"
+                    "glosses": [
+                        "to estimate"
+                    ]
                 },
                 {
-                    "glosses": "to think, to believe"
+                    "glosses": [
+                        "to think, to believe"
+                    ]
                 }
             ]
         }
