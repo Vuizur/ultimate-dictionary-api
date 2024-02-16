@@ -10,3 +10,4 @@
 * Add canonical form to response
 * Synonyms
 * Related words
+* Collation for Translations
