@@ -67,7 +67,8 @@ public class InsertService {
 
     public void createIndexes() {
         String[] sqlStatements = new String[] {
-                "CREATE INDEX IF NOT EXISTS etymology_word_idx ON etymology (word);",
+  //              "CREATE INDEX IF NOT EXISTS etymology_word_idx ON etymology (word);",
+                "CREATE INDEX IF NOT EXISTS etymology_word_ci_idx ON etymology (word COLLATE no_case_no_diac);",
                 "CREATE INDEX IF NOT EXISTS etymology_pos_idx ON etymology (pos);",
                 "CREATE INDEX IF NOT EXISTS etymology_lang_code_idx ON etymology (lang_code);",
                 "CREATE INDEX IF NOT EXISTS translation_etym_lang_code_idx ON translation USING btree (etymology_id, lang_code);",
@@ -91,6 +92,12 @@ public class InsertService {
         };
         // Execute the batch update
         jdbcTemplate.batchUpdate(sqlStatements);
+    }
+
+    public void createCollation() {
+        // Create collation that is case-insensitive and diacritic-insensitive (compatible with all languages) and where an index can be used
+        // TODO: Find out if we really need a nondeterministic collation, the index is supposed to be a bit slower
+        jdbcTemplate.execute("CREATE COLLATION IF NOT EXISTS no_case_no_diac (provider = icu, locale = 'und-u-ks-level1', deterministic = false);"); 
     }
 
     public void insertDataFromWiktionary() {
@@ -399,6 +406,7 @@ public class InsertService {
             insertDataFromWiktionary();
             logger.info("Creating indexes");
             long startTime = System.currentTimeMillis();
+            createCollation();
             createIndexes();
             long endTime = System.currentTimeMillis();
             logger.info("Creating indexes took " + String.format("%02d:%02d:%02d.%04d",

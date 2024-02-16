@@ -57,8 +57,8 @@ public interface EtymologyRepository extends JpaRepository<Etymology, Long> {
 
 
   // JPA generated queries are simply too slow, so we use native queries instead
-  @Query(value = AGGREGATE_JSON_ENTRIES + "where e.word = :word", nativeQuery = true)
-  String findByWrd(@Param("word") String word);
+  //@Query(value = AGGREGATE_JSON_ENTRIES + "where e.word = :word collate no_case_no_diac", nativeQuery = true)
+  //String findByWrd(@Param("word") String word);
 
   @Query(value = """
       select
@@ -91,7 +91,7 @@ public interface EtymologyRepository extends JpaRepository<Etymology, Long> {
         select e.word, e.pos, array_agg(distinct s.ipa) as ipa, array_agg(distinct t.word) as translation from etymology e
         join "translation" t on e.id = t.etymology_id
         left join sound s on s.etymology_id = e.id
-        where e.word = :word
+        where e.word = :word collate no_case_no_diac
         and e.lang_code = :sourceLangCode
         and t.lang_code = :targetLangCode
         group by e.id, e.word, e.pos
@@ -123,7 +123,7 @@ public interface EtymologyRepository extends JpaRepository<Etymology, Long> {
             FROM sense s where s.etymology_id = e.id
            )
       )))
-      from etymology e where e.word = :word and e.source_wiktionary_code = :targetLangCode and e.lang_code = :sourceLangCode
+      from etymology e where e.word = :word collate no_case_no_diac and e.source_wiktionary_code = :targetLangCode and e.lang_code = :sourceLangCode
         """, nativeQuery = true)
   String findProperWiktionaryEntries(@Param("sourceLangCode") String sourceLangCode,
       @Param("targetLangCode") String targetLangCode, @Param("word") String word);
