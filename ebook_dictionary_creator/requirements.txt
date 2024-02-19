@@ -1,0 +1,5 @@
+pyglossary
+psycopg[binary]
+fastapi
+mediawiki_langcodes @ https://github.com/xxyzz/mediawiki_langcodes/releases/download/v0.2.0/mediawiki_langcodes-0.2.0-py3-none-any.whl
+uvicorn[standard]
