@@ -87,6 +87,7 @@ public class InsertService {
                 "CREATE INDEX IF NOT EXISTS sense_alt_of_idx ON sense (alt_of);",
                 "CREATE INDEX IF NOT EXISTS sound_etymology_id_idx ON sound (etymology_id);",
                 "CREATE INDEX IF NOT EXISTS synonym_etymology_id_idx ON synonym (etymology_id);",
+                "CREATE INDEX IF NOT EXISTS synonym_word_idx ON synonym (word COLLATE no_case_no_diac);",
                 "CREATE INDEX IF NOT EXISTS form_etymology_id_idx ON form (etymology_id);",
                 "CREATE INDEX IF NOT EXISTS form_form_idx ON form (form);",
                 "CREATE INDEX IF NOT EXISTS form_form_tags_idx ON form_tags (form_id);",
