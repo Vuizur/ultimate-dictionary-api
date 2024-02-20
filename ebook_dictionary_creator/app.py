@@ -2,13 +2,20 @@ from pyglossary.glossary_v2 import Glossary
 import mediawiki_langcodes
 import fastapi
 import psycopg
-
-Glossary.init()
+import os
+from uuid import uuid4
 
 AUTHOR = "Vuizur"
 DB_USER = "postgres"
 DB_PASSWORD = "silver"
 DB_NAME = "wikt"
+DICTIONARY_BASE_FOLDER = "dictionaries/"
+
+Glossary.init()
+
+# create dictionary base folder if it doesn't exist
+if not os.path.exists(DICTIONARY_BASE_FOLDER):
+    os.makedirs(DICTIONARY_BASE_FOLDER)
 
 conn = psycopg.connect(
     host="localhost", dbname=DB_NAME, user=DB_USER, password=DB_PASSWORD
@@ -90,7 +97,7 @@ def create_entry_html(
     return html
 
 
-def create_dict(source_lang_code: str, target_lang_code: str):
+def create_dict(source_lang_code: str, target_lang_code: str) -> str:
     glos = Glossary()
     source_lang, target_lang = get_name(source_lang_code, target_lang_code)
     print(f"Creating dictionary from {source_lang} to {target_lang}")
@@ -120,12 +127,17 @@ def create_dict(source_lang_code: str, target_lang_code: str):
             word_list.extend(entry["forms"])
         glos.addEntry(glos.newEntry(word_list, html, "h"))
 
-        glos.setInfo("title", f"{source_lang} - {target_lang} (Wiktionary)")
-        glos.setInfo("author", AUTHOR)
-        glos.write("wiktionary_" + source_lang_code + "_" + target_lang_code + ".ifo", format="Stardict")
+    glos.setInfo("title", f"{source_lang} - {target_lang} (Wiktionary)")
+    glos.setInfo("author", AUTHOR)
+    file_path = (
+        f"{DICTIONARY_BASE_FOLDER}wiktionary_{source_lang_code}_{target_lang_code}"
+        + str(uuid4())
+    )
+    glos.write(file_path + ".ifo", format="Stardict")
+    return file_path
 
 
-create_dict("en", "cs")
+# create_dict("en", "cs")
 
 # FastAPI app allowing two languages to be selected and a dictionary to be created using path parameters
 app = fastapi.FastAPI()
@@ -133,5 +145,7 @@ app = fastapi.FastAPI()
 
 @app.get("/create_dictionary/{source_lang_code}/{target_lang_code}")
 def create_dictionary(source_lang_code: str, target_lang_code: str):
-    create_dict(source_lang_code, target_lang_code)
-    return {"message": "Dictionary created successfully!"}
+    file_path = create_dict(source_lang_code, target_lang_code)
+    return {
+        "file_path": file_path
+    }  # Spring boot will then serve the file to the user and delete it afterwards
