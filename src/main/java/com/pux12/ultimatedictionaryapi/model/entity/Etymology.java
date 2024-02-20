@@ -24,6 +24,7 @@ public class Etymology {
     @Column(columnDefinition = "text")
     private String pos;
 
+    @Column(columnDefinition = "text") // Thanks to the Spanish Wiktionary, which has a bug with the language xma-ker
     private String lang;
 
     private String langCode;
