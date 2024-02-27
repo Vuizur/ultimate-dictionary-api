@@ -28,13 +28,6 @@ public class DictionaryController {
         return "Welcome to the Ultimate Dictionary API!";
     }
 
-    /*
-     * @RequestMapping(value = "word/{word}", method = RequestMethod.GET)
-     * public ResponseEntity<String> findByWord(@PathVariable String word) {
-     * return ResponseEntity.ok(etymologyRepository.findByWrd(word));
-     * }
-     */
-
     @RequestMapping(value = "source/{source_wiktionary_code}", method = RequestMethod.GET)
     public Page<Etymology> findBySourceWiktionaryCode(@PathVariable String source_wiktionary_code,
             @RequestParam(value = "page", defaultValue = "0") int page,
