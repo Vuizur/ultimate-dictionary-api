@@ -135,7 +135,7 @@ public interface EtymologyRepository extends JpaRepository<Etymology, Long> {
   String findProperWiktionaryEntries(@Param("sourceLangCode") String sourceLangCode,
       @Param("targetLangCode") String targetLangCode, @Param("word") String word);
 
-  // Unfortunately we have to duplicate the code here, because we can't use the json_agg like above
+  // Unfortunately we have to duplicate the query here, because we can't use the json_agg like above
   @Query(value = """
           select json_strip_nulls(json_build_object(
           'word', e.word,

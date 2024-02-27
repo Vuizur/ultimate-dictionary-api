@@ -2,9 +2,12 @@
 * Create a Translation response class
     - entries that have a form that fits
 * Create DTO for translation endpoint
-* Don't add translations to response if source and target lang are the same
 * Search for cyrillic translations from latin languages in Russian wiktionary, maybe open bug if large problem
-* Random word API: Add a random float between 0 and 1 to each word in the dictionary, and index this. Then, when a random word is requested, get a random float between 0 and 1 and return the word with the closest float.
 * Synonyms
 * Related words
 * Collation for Translations
+* Add word frequencies (Problem: we need Python code/server)
+* Set up powerful server for DB creation
+* Maybe cluster by lang code/source wiktionary code for faster creation of dictionaries.
+    - Then run analyze
+* Create wordfreq server
