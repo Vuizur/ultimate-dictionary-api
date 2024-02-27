@@ -67,13 +67,15 @@ public class InsertService {
 
     public void createIndexes() {
         String[] sqlStatements = new String[] {
-  //              "CREATE INDEX IF NOT EXISTS etymology_word_idx ON etymology (word);",
+                // "CREATE INDEX IF NOT EXISTS etymology_word_idx ON etymology (word);",
                 "CREATE INDEX IF NOT EXISTS etymology_word_ci_idx ON etymology (word COLLATE no_case_no_diac);",
                 "CREATE INDEX IF NOT EXISTS etymology_pos_idx ON etymology (pos);",
                 "CREATE INDEX IF NOT EXISTS etymology_lang_code_idx ON etymology (lang_code);",
                 "CREATE INDEX IF NOT EXISTS translation_etym_lang_code_idx ON translation USING btree (etymology_id, lang_code);",
                 "CREATE INDEX IF NOT EXISTS etymology_word_lang_code_idx ON etymology (word, lang_code);",
                 "CREATE INDEX IF NOT EXISTS etymology_source_wiktionary_code_idx ON etymology (source_wiktionary_code);",
+                "CREATE INDEX IF NOT EXISTS etymology_source_wiktionary_lang_code_idx ON etymology (source_wiktionary_code, lang_code);",
+                "CREATE INDEX IF NOT EXISTS etymology_source_wiktionary_lang_code_random_number_index ON etymology(source_wiktionary_code, lang_code, random_number);",
                 "CREATE INDEX IF NOT EXISTS translation_lang_code_idx ON translation (lang_code);",
                 "CREATE INDEX IF NOT EXISTS translation_word_idx ON translation (word);",
                 "CREATE INDEX IF NOT EXISTS translation_etymology_id_idx ON translation (etymology_id);",
@@ -92,15 +94,19 @@ public class InsertService {
                 "CREATE INDEX IF NOT EXISTS form_form_idx ON form (form);",
                 "CREATE INDEX IF NOT EXISTS form_form_tags_idx ON form_tags (form_id);",
                 "CREATE INDEX IF NOT EXISTS form_form_tags_form_id_idx ON form_tags (tags, form_id);",
+            
         };
         // Execute the batch update
         jdbcTemplate.batchUpdate(sqlStatements);
     }
 
     public void createCollation() {
-        // Create collation that is case-insensitive and diacritic-insensitive (compatible with all languages) and where an index can be used
-        // TODO: Find out if we really need a nondeterministic collation, the index is supposed to be a bit slower
-        jdbcTemplate.execute("CREATE COLLATION IF NOT EXISTS no_case_no_diac (provider = icu, locale = 'und-u-ks-level1', deterministic = false);"); 
+        // Create collation that is case-insensitive and diacritic-insensitive
+        // (compatible with all languages) and where an index can be used
+        // TODO: Find out if we really need a nondeterministic collation, the index is
+        // supposed to be a bit slower
+        jdbcTemplate.execute(
+                "CREATE COLLATION IF NOT EXISTS no_case_no_diac (provider = icu, locale = 'und-u-ks-level1', deterministic = false);");
     }
 
     public void insertDataFromWiktionary() {
