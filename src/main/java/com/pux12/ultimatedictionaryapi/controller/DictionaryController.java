@@ -1,5 +1,7 @@
 package com.pux12.ultimatedictionaryapi.controller;
 
+import java.util.Random;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +24,8 @@ public class DictionaryController {
     private EtymologyRepository etymologyRepository;
 
     ObjectMapper mapper = new ObjectMapper();
+
+    Random rd = new Random();
 
     @GetMapping("/")
     public String index() {
@@ -66,6 +70,11 @@ public class DictionaryController {
         } catch (Exception e) {
             return e.getMessage();
         }
+    }
+
+    @RequestMapping(value="random/{sourceLangCode}/{targetLangCode}", method = RequestMethod.GET)
+    public String randomWord(@PathVariable String sourceLangCode, @PathVariable String targetLangCode){
+        return etymologyRepository.getRandomWord(sourceLangCode, targetLangCode, rd.nextFloat());
     }
 
     @RequestMapping(value = "propertranslation/{sourceLangCode}/{targetLangCode}/{word}", method = RequestMethod.GET)
