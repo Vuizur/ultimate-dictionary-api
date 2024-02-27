@@ -72,6 +72,8 @@ For example, a request to [`/translation/es/en/estimar`](http://116.202.96.240:8
 }
 ```
 
+There exists also a random word api under `/random/{source_lang}/{target_lang}`, which will return a random word in a specific `source_lang` and its associated data from a Wiktionary in a specifc `target_lang`.
+
 ### Statistics 
 * 18 620 000 dictionary entries with all sort of metadata
 * 7 282 354 translations
@@ -80,7 +82,6 @@ For example, a request to [`/translation/es/en/estimar`](http://116.202.96.240:8
 ### Future work
 I don't know how much time I will have, but there are a few things that I haven't implemented.
 * Lookup for inflected forms - my VPS currently does not have enough disk space. (Maybe one could also exclude languages with too many inflections, or I need to rework my deployment.)
-* Getting random words: This is more difficult than it appears, because all standard solutions will be too slow. So we will have to use clever indexing and possibly associate each word with a random number in the DB
 * Integrating word frequency data from wordfreq
 
 ### Data source
