@@ -32,12 +32,19 @@ public class DictionaryController {
         return "Welcome to the Ultimate Dictionary API!";
     }
 
-    @RequestMapping(value = "source/{source_wiktionary_code}", method = RequestMethod.GET)
-    public Page<Etymology> findBySourceWiktionaryCode(@PathVariable String source_wiktionary_code,
-            @RequestParam(value = "page", defaultValue = "0") int page,
-            @RequestParam(value = "size", defaultValue = "50") int size) {
-        return etymologyRepository.findBySourceWiktionaryCode(source_wiktionary_code, PageRequest.of(page, size));
-    }
+    /*
+     * @RequestMapping(value = "source/{source_wiktionary_code}", method =
+     * RequestMethod.GET)
+     * public Page<Etymology> findBySourceWiktionaryCode(@PathVariable String
+     * source_wiktionary_code,
+     * 
+     * @RequestParam(value = "page", defaultValue = "0") int page,
+     * 
+     * @RequestParam(value = "size", defaultValue = "50") int size) {
+     * return etymologyRepository.findBySourceWiktionaryCode(source_wiktionary_code,
+     * PageRequest.of(page, size));
+     * }
+     */
 
     @RequestMapping(value = "translation/{sourceLangCode}/{targetLangCode}/{word}", method = RequestMethod.GET)
     public String findTranslation(@PathVariable String sourceLangCode, @PathVariable String targetLangCode,
@@ -72,8 +79,8 @@ public class DictionaryController {
         }
     }
 
-    @RequestMapping(value="random/{sourceLangCode}/{targetLangCode}", method = RequestMethod.GET)
-    public String randomWord(@PathVariable String sourceLangCode, @PathVariable String targetLangCode){
+    @RequestMapping(value = "random/{sourceLangCode}/{targetLangCode}", method = RequestMethod.GET)
+    public String randomWord(@PathVariable String sourceLangCode, @PathVariable String targetLangCode) {
         return etymologyRepository.getRandomWord(sourceLangCode, targetLangCode, rd.nextFloat());
     }
 
@@ -82,4 +89,10 @@ public class DictionaryController {
             @PathVariable String word) {
         return etymologyRepository.findProperWiktionaryEntries(sourceLangCode, targetLangCode, word);
     }
+
+    @RequestMapping(value = "synonyms/{langCode}/{word}", method = RequestMethod.GET)
+    public String findSynonyms(@PathVariable String langCode, @PathVariable String word) {
+        return etymologyRepository.getSynonyms(langCode, word);
+    }
+
 }

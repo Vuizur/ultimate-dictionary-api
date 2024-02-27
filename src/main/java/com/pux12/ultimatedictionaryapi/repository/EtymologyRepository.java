@@ -135,7 +135,8 @@ public interface EtymologyRepository extends JpaRepository<Etymology, Long> {
   String findProperWiktionaryEntries(@Param("sourceLangCode") String sourceLangCode,
       @Param("targetLangCode") String targetLangCode, @Param("word") String word);
 
-  // Unfortunately we have to duplicate the query here, because we can't use the json_agg like above
+  // Unfortunately we have to duplicate the query here, because we can't use the
+  // json_agg like above
   @Query(value = """
           select json_strip_nulls(json_build_object(
           'word', e.word,
@@ -169,6 +170,28 @@ public interface EtymologyRepository extends JpaRepository<Etymology, Long> {
       @Param("seed") float seed);
 
   // find by source wiktionary code, paginated. (Only testing..)
-  Page<Etymology> findBySourceWiktionaryCode(String source_wiktionary_code, Pageable pageable);
+  /*
+   * Page<Etymology> findBySourceWiktionaryCode(String source_wiktionary_code,
+   * Pageable pageable);
+   */
 
+  @Query(value = """
+      select json_agg(json_build_object(
+        'source_word', source_word,
+        'pos', pos,
+        'synonyms', synonyms
+      )) from (select source_word, pos, json_agg(synonym) as synonyms
+      from (select e.word as source_word, e.pos as pos, s.word as synonym  from etymology e
+      join synonym s ON s.etymology_id = e.id
+      where e.lang_code = :langCode
+      and e.word = :word collate no_case_no_diac
+      union
+      select s2.word as source_word, e2.pos as pos, e2.word as synonym from etymology e2
+      join synonym s2 on s2.etymology_id = e2.id
+      where e2.lang_code = :langCode
+      and s2.word = :word collate no_case_no_diac)
+      group by (source_word, pos)
+      )
+        """, nativeQuery = true)
+  String getSynonyms(@Param("langCode") String langCode, @Param("word") String word);
 }
