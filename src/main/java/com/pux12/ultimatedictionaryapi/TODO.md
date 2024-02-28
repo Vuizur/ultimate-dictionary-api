@@ -1,16 +1,13 @@
 * Endpoint that allows creation of a dictionary
-* Create a Translation response class
-    - entries that have a form that fits
 * Create DTO for translation endpoint
-* Search for cyrillic translations from latin languages in Russian wiktionary, maybe open bug if large problem
+* Search for cyrillic translations from Latin languages in Russian wiktionary, maybe open bug if large problem
 * Related words
-* Collation for Translations
+* Collation for translations
 * Add word frequencies (Problem: we need Python code/server and wordfreq package)
 * Set up powerful server for DB creation
 * Maybe cluster by lang code/source wiktionary code for faster creation of dictionaries.
     - Then run analyze
-    - Also optimize database settings (RAM, etc)
-* Create wordfreq server
+    - Also optimize database settings (RAM, etc) based on this one server
 * Run pganalyze for create dictionary query
 * Explore creating a general JSON schema for all languages and then autogenerating the correct Spring Boot model (does something like this even exist?)
 * Post API to Wikitionary grease pit and ask for feedback.
@@ -18,4 +15,8 @@
 * Ignore words that only have form_of and alt_of senses - maybe use random_number for this, because we can filter everything where it is null?
 * Advanced: Recursively get all data for inflections (matching on form_of or alt_of)
 * Ignore forms like "animate" and "cs-decl" or so - also contribute stuff to WordDumb if it hasn't been already added there
-* Check optimizations for synonym endpoint
+* Check optimizations for synonym endpoint using pganalyze
+* Add wordfreq using Python
+* Properly specify ebook_creator dependencies in pyproject.toml
+* Install mecab optional extra for wordfreq
+* Properly handle not existing languages
