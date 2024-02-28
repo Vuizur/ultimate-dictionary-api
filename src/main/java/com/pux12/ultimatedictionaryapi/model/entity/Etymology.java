@@ -51,6 +51,8 @@ public class Etymology {
 
     private Float randomNumber;
 
+    private Float frequency;
+
     public Etymology() {
     }
 
@@ -163,6 +165,14 @@ public class Etymology {
 
     public void setRandomNumber(Float randomNumber) {
         this.randomNumber = randomNumber;
+    }
+
+    public Float getFrequency() {
+        return frequency;
+    }
+
+    public void setFrequency(Float frequency) {
+        this.frequency = frequency;
     }
 
 }
