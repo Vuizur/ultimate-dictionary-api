@@ -88,7 +88,7 @@ I don't know how much time I will have, but there are a few things that I haven'
 * Integrating word frequency data from wordfreq
 
 ### Data source
-The database is populated with extracted Wiktionary data from 6 Wiktionaries, powered by [Wiktextract](https://github.com/tatuylonen/wiktextract).
+The database is populated with extracted Wiktionary data from 6 Wiktionaries, powered by [Wiktextract](https://github.com/tatuylonen/wiktextract). The dictionary data is dual-licensed to the public under both the Creative Commons Attribution-ShareAlike 3.0 Unported License (CC-BY-SA) and the GNU Free Documentation License (GFDL).
 
 ### Caveats
 Data may be incorrect. This is mainly caused by some nonstandard formatting on Wiktionary that wiktextract doesn't parse correctly. Feel free to report (and fix) possible problems over there. If the problem does not lie with wiktextract, often the translation tables in some Wiktionary editions may be wrong. You can also open an issue here (especially if it is a big problem), I might be able to find the source (no promises).
