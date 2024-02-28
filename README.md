@@ -4,7 +4,7 @@ A Spring Boot app that exposes a dictionary API for definitions and translations
 
 ### API
 
-The main API is `/translation/{source_lang_code}/{target_lang_code}/{word}`. I currently have an instance running on http://116.202.96.240:8080/ (I can't guarantee 100 percent uptime though).
+The main API is `/translation/{source_lang_code}/{target_lang_code}/{word}`. I currently have an instance running on http://116.202.96.240:8080/ (I can't guarantee 100 percent uptime though, and it might change without warning).
 
 It returns a JSON object in the form that contains 3 keys:
 * **entries**, which contains a list of all entry taken from Wiktionary, such as IPA, part of speech, definitions, examples, ...
