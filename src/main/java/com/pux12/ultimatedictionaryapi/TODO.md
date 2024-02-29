@@ -17,6 +17,4 @@
 * Ignore forms like "animate" and "cs-decl" or so - also contribute stuff to WordDumb if it hasn't been already added there
 * Check optimizations for synonym endpoint using pganalyze
 * Add wordfreq using Python
-* Properly specify ebook_creator dependencies in pyproject.toml
-* Install mecab optional extra for wordfreq
-* Properly handle not existing languages
+* Ask on stackoverflow why psycopg code does not work
