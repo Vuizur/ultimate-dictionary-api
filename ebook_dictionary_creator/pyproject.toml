@@ -7,6 +7,11 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.12"
+pyglossary = "^4.6.1"
+mecab-python3 = "1.0.9dev4"
+wordfreq = {extras = ["cjk"], version = "^3.1.1"}
+psycopg = {extras = ["binary"], version = "^3.1.18"}
+tqdm = "^4.66.2"
 
 
 [build-system]
