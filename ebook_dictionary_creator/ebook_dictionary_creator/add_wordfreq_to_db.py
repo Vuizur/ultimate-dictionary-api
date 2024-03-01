@@ -24,6 +24,9 @@ langs = set([l for l, _ in available_languages().items()])
 conn = psycopg.connect(
     host="localhost", dbname=DB_NAME, user=DB_USER, password=DB_PASSWORD
 )
+#conn2 = psycopg.connect(
+#    host="localhost", dbname=DB_NAME, user=DB_USER, password=DB_PASSWORD
+#)
 
 
 def simple_solution():
@@ -50,8 +53,8 @@ def simple_solution():
     conn.commit()
 
 def temp_table_solution():
-    conn.execute("CREATE TEMP TABLE temp_frequency(id INTEGER NOT NULL, frequency FLOAT4) ON COMMIT DROP")
     with conn.cursor(name="wordfreq_cursor") as cur, conn.cursor() as ins_cur:
+        ins_cur.execute("CREATE TEMP TABLE temp_frequency(id INTEGER NOT NULL, frequency FLOAT4) ON COMMIT DROP")
         cur.itersize = 20_000
         cur.execute("SELECT id, lang_code, word FROM etymology LIMIT 3000")
         i = 1 
@@ -65,7 +68,6 @@ def temp_table_solution():
                 pbar.update(1)
             ins_cur.execute("UPDATE etymology e SET e.frequency = t.frequency FROM temp_frequency t WHERE e.id = t.id")
             i += 1
-
         conn.commit()
 
 temp_table_solution()
