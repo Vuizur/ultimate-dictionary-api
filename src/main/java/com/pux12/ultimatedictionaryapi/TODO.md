@@ -17,4 +17,5 @@
 * Ignore forms like "animate" and "cs-decl" or so - also contribute stuff to WordDumb if it hasn't been already added there
 * Check optimizations for synonym endpoint using pganalyze
 * Add wordfreq using Python
-* Ask on stackoverflow why psycopg code does not work
+* Use dependency walker to find out the version Python uses
+* Implement solution using plpython
