@@ -94,7 +94,7 @@ public class InsertService {
                 "CREATE INDEX IF NOT EXISTS form_form_idx ON form (form);",
                 "CREATE INDEX IF NOT EXISTS form_form_tags_idx ON form_tags (form_id);",
                 "CREATE INDEX IF NOT EXISTS form_form_tags_form_id_idx ON form_tags (tags, form_id);",
-            
+
         };
         // Execute the batch update
         jdbcTemplate.batchUpdate(sqlStatements);
@@ -107,6 +107,22 @@ public class InsertService {
         // supposed to be a bit slower
         jdbcTemplate.execute(
                 "CREATE COLLATION IF NOT EXISTS no_case_no_diac (provider = icu, locale = 'und-u-ks-level1', deterministic = false);");
+    }
+
+    public void enablePLPython() {
+        try {
+            jdbcTemplate.execute(
+                    "CREATE EXTENSION plpython3u;");
+        } catch (Exception e) {
+            logger.error("Error enabling PL/Python: ", e);
+
+        }
+    }
+
+    public void createPLPythonFunction() {
+        // jdbcTemplate.execute(
+        //
+        // )
     }
 
     public void insertDataFromWiktionary() {
