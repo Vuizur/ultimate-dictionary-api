@@ -12,6 +12,8 @@ mecab-python3 = "1.0.9dev4"
 wordfreq = {extras = ["cjk"], version = "^3.1.1"}
 psycopg = {extras = ["binary"], version = "^3.1.18"}
 tqdm = "^4.66.2"
+fastapi = "^0.110.0"
+mediawiki-langcodes = {url = "https://github.com/xxyzz/mediawiki_langcodes/releases/download/v0.2.1/mediawiki_langcodes-0.2.1-py3-none-any.whl"}
 
 
 [build-system]
