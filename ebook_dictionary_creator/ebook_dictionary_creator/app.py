@@ -32,7 +32,7 @@ select json_agg(json_strip_nulls(json_build_object(
         where f.etymology_id = e.id and ft.tags = 'canonical'
         ),
         'forms', (SELECT json_agg(distinct f.form
-        )))
+        )
         FROM form f
         LEFT JOIN form_tags ft ON f.id = ft.form_id
         WHERE f.etymology_id = e.id and ft.tags <> 'canonical'
@@ -51,9 +51,9 @@ select json_agg(json_strip_nulls(json_build_object(
             FROM sense s where s.etymology_id = e.id
            )
       )))
-      from etymology e where e.source_wiktionary_code = :targetLangCode and e.lang_code = :sourceLangCode
+      from etymology e where e.source_wiktionary_code = %s and e.lang_code = %s AND e.random_number IS NOT NULL
       """
-
+        # random_number is null for entries that only have inflection glosses
 
 def get_name(source_l_code: str, target_l_code: str) -> tuple[str, str]:
     source_lang = mediawiki_langcodes.code_to_name(source_l_code, target_l_code)
@@ -84,6 +84,8 @@ def create_entry_html(
     # Add senses in ordered list
     html += "<ol>"
     for sense in senses:
+        if "glosses" not in sense:
+            continue
         glosses = sense["glosses"]
         html += "<li>"
         html += f"{', '.join(glosses)}"
@@ -103,7 +105,7 @@ def create_dict(source_lang_code: str, target_lang_code: str) -> str:
     print(f"Creating dictionary from {source_lang} to {target_lang}")
     cursor.execute(
         GET_FULL_ENTRIES,
-        {"sourceLangCode": source_lang_code, "targetLangCode": target_lang_code},
+        (source_lang_code, target_lang_code),
     )
 
     entries = cursor.fetchone()[0]
@@ -137,7 +139,8 @@ def create_dict(source_lang_code: str, target_lang_code: str) -> str:
     return file_path
 
 
-# create_dict("en", "cs")
+create_dict("en", "cs")
+quit()
 
 # FastAPI app allowing two languages to be selected and a dictionary to be created using path parameters
 app = fastapi.FastAPI()
